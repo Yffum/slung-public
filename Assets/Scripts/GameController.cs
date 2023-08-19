@@ -1,18 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static GameController Game { get; private set; }
+    public static ScreenController Screen { get; private set; }
+
+    private void Awake()
     {
-        
+        if (Game == null)
+        {
+            Game = this;
+        }
+        else if (Game != this)
+        {
+            Destroy(gameObject);
+        }
+
+        // DontDestroyOnLoad(gameObject);
+
+        InitializeMembers();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void InitializeMembers()
     {
-        
+        Screen = GetComponent<ScreenController>().Init();
     }
 }
