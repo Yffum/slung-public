@@ -23,6 +23,7 @@ public class SlingshotInputHandler : MonoBehaviour
     /// </summary>
     [SerializeField] private GameObject _pouch;
 
+    //-------for adjusting RigidBody2D velocity
     private bool _pouchVelocityUpdateQueued = false;
     private Vector3 _newPouchVelocity = Vector3.zero;
 
@@ -31,6 +32,7 @@ public class SlingshotInputHandler : MonoBehaviour
     /// </summary>
     private GameObject _playerBall = null;
 
+    //-------for adjusting RigidBody2D velocity
     private bool _playerBallVelocityUpdateQueued = false;
     private Vector3 _newPlayerBallVelocity = Vector3.zero;
 
@@ -57,6 +59,10 @@ public class SlingshotInputHandler : MonoBehaviour
             // spawn ball at pouch position
             _playerBall = ballSpawner.SpawnAt(_pouch.transform.position);
 
+            // set ball's initial scale (global!)
+            Vector3 playerBallMinScale = new Vector3(3, 3, 1);
+            _playerBall.transform.localScale = playerBallMinScale;
+
             // attach ball to pouch and turn off ball physics
             _playerBall.transform.SetParent(_pouch.transform);
             _playerBall.GetComponent<Rigidbody2D>().simulated = false;
@@ -68,6 +74,8 @@ public class SlingshotInputHandler : MonoBehaviour
         HandleUserInput();
 
         SpawnPlayerBall();
+
+        GrowPlayerBall();
     }
 
     private void FixedUpdate()
@@ -107,7 +115,7 @@ public class SlingshotInputHandler : MonoBehaviour
             // if finishing launch and pouch exits threshold proximity to resting position
             else if (_finishingSnapBack && restDisplacement > pouchProximityThreshold)
             {
-                StopSnapBack();
+                DetachBall();
             }
 
             // if still _snappingBack, skip touch handling
@@ -205,7 +213,7 @@ public class SlingshotInputHandler : MonoBehaviour
     /// Stops snapping back _pouch and transfers _pouch velocity to _playerBall, which is detached from the pouch.
     /// _playerBall is derefenced after velocity is set in FixedUpdate()
     /// </summary>
-    private void StopSnapBack()
+    private void DetachBall()
     {
         _snappingBack = false;
         _finishingSnapBack = false;
@@ -214,7 +222,7 @@ public class SlingshotInputHandler : MonoBehaviour
         if (_playerBall != null)
         {
             // detach ball from pouch and activate ball physics
-            _playerBall.transform.SetParent(null);
+            _playerBall.transform.SetParent(null, true);
             _playerBall.GetComponent<Rigidbody2D>().simulated = true;
 
             // pass velocity to ball
@@ -226,4 +234,17 @@ public class SlingshotInputHandler : MonoBehaviour
         _newPouchVelocity = Vector3.zero;
         _pouchVelocityUpdateQueued = true;
     }
+
+    /// <summary>
+    /// Scale the ball towards full size--run every Update()
+    /// </summary>
+    private void GrowPlayerBall()
+    {
+        // set ball final scale ( local! )
+        Vector3 ballFullScale = new Vector3(3.75f, 3.75f, 1);
+
+        float speed = 8f;
+        float step = speed * Time.deltaTime; // calculate amount to increase scale
+        _playerBall.transform.localScale = Vector3.MoveTowards(_playerBall.transform.localScale, ballFullScale, step);
+    }    
 }
