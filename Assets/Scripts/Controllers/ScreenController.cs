@@ -7,7 +7,7 @@ public class ScreenController : MonoBehaviour
     /// <summary>
     /// Half the width of the game world.
     /// </summary>
-    private const float _orthographicHalfWidth = 100f;
+    public const float OrthographicHalfWidth = 100f;
 
     private float _originalOrthographicSize;
 
@@ -29,14 +29,14 @@ public class ScreenController : MonoBehaviour
     public Vector3 GetGlobalPosition(Vector2 screenPosition)
     {
         // multiply this by touch.Position to get the global position of the touch
-        float globalToScreenPositionRatio = _orthographicHalfWidth * 2 / Screen.width; // Optimize: calculate this at initialization
+        float globalToScreenPositionRatio = OrthographicHalfWidth * 2 / Screen.width; // Optimize: calculate this at initialization
 
         // calculate position from ratio
         float xPosition = screenPosition.x * globalToScreenPositionRatio;
         float yPosition = screenPosition.y * globalToScreenPositionRatio;
 
         // reposition origin to center
-        xPosition -= _orthographicHalfWidth;
+        xPosition -= OrthographicHalfWidth;
         const float _orthographicHalfHeight = 150f; // this is not the actual center
         yPosition -= _orthographicHalfHeight;
 
@@ -50,7 +50,7 @@ public class ScreenController : MonoBehaviour
     {
         _originalOrthographicSize = Camera.main.orthographicSize;
 
-        Camera.main.orthographicSize = _orthographicHalfWidth * Screen.height / Screen.width;
+        Camera.main.orthographicSize = OrthographicHalfWidth * Screen.height / Screen.width;
 
         _cameraDeltaYPosition = Camera.main.orthographicSize - _originalOrthographicSize;
 

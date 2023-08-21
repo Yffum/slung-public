@@ -241,9 +241,9 @@ public class SlingshotInputHandler : MonoBehaviour
     private void GrowPlayerBall()
     {
         // set ball final scale ( local! )
-        Vector3 ballFullScale = new Vector3(3.75f, 3.75f, 1);
+        Vector3 ballFullScale = new Vector3(5f, 5f, 1);
 
-        float speed = 8f;
+        float speed = 14f;
         float step = speed * Time.deltaTime; // calculate amount to increase scale
         _playerBall.transform.localScale = Vector3.MoveTowards(_playerBall.transform.localScale, ballFullScale, step);
     }    

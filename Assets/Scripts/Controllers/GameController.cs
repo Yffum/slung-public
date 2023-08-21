@@ -6,8 +6,10 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     public static GameController Game { get; private set; }
+    //------
     public static ScreenController Screen { get; private set; }
     public static SpawnController Spawn { get; private set; }
+    public static LevelController Level { get; private set; }
 
 
     private void Awake()
@@ -30,5 +32,6 @@ public class GameController : MonoBehaviour
     {
         Screen = GetComponent<ScreenController>().Init();
         Spawn = GetComponent<SpawnController>().Init();
+        Level = GetComponent<LevelController>().Init();
     }
 }

@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class SpawnController : MonoBehaviour
 {
-    [SerializeField] private GameObject spawnerPrefab;
+    [SerializeField] private GameObject _spawnerPrefab;
 
-    [SerializeField] private GameObject playerBallPrefab;
+    public GameObject PlayerBallSpawner { get; private set; }
+    [SerializeField] private GameObject _playerBallPrefab;
+    public GameObject TargetSpawner { get; private set; }
+    [SerializeField] private GameObject _targetPrefab;
 
-    public GameObject PlayerBallSpawner;
+
 
     public SpawnController Init()
     {
@@ -18,8 +21,11 @@ public class SpawnController : MonoBehaviour
 
     private void InstantiateSpawners()
     {
-        PlayerBallSpawner = Instantiate(spawnerPrefab);
-        PlayerBallSpawner.GetComponent<Spawner>().Init(playerBallPrefab, 10);
+        PlayerBallSpawner = Instantiate(_spawnerPrefab);
+        PlayerBallSpawner.GetComponent<Spawner>().Init(_playerBallPrefab, 10);
+
+        TargetSpawner = Instantiate(_spawnerPrefab);
+        TargetSpawner.GetComponent<Spawner>().Init(_targetPrefab, 50);
     }
 }
 
