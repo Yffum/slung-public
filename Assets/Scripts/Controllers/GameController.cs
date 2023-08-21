@@ -7,6 +7,8 @@ public class GameController : MonoBehaviour
 {
     public static GameController Game { get; private set; }
     public static ScreenController Screen { get; private set; }
+    public static SpawnController Spawn { get; private set; }
+
 
     private void Awake()
     {
@@ -27,5 +29,6 @@ public class GameController : MonoBehaviour
     private void InitializeMembers()
     {
         Screen = GetComponent<ScreenController>().Init();
+        Spawn = GetComponent<SpawnController>().Init();
     }
 }

@@ -29,7 +29,7 @@ public class SlingshotInputHandler : MonoBehaviour
     /// <summary>
     /// The ball that is launched by the slingshot
     /// </summary>
-    [SerializeField] private GameObject _playerBall;
+    private GameObject _playerBall = null;
 
     private bool _playerBallVelocityUpdateQueued = false;
     private Vector3 _newPlayerBallVelocity = Vector3.zero;
@@ -44,9 +44,30 @@ public class SlingshotInputHandler : MonoBehaviour
     /// </summary>
     private bool _finishingSnapBack = false;
 
+    /// <summary>
+    /// If there is no _playerBall attached to the pouch, spawn a new _playerBall
+    /// </summary>
+    public void SpawnPlayerBall()
+    {
+        if (_playerBall == null)
+        {
+            // get spawner
+            Spawner ballSpawner = GameController.Spawn.PlayerBallSpawner.GetComponent<Spawner>();
+
+            // spawn ball at pouch position
+            _playerBall = ballSpawner.SpawnAt(_pouch.transform.position);
+
+            // attach ball to pouch and turn off ball physics
+            _playerBall.transform.SetParent(_pouch.transform);
+            _playerBall.GetComponent<Rigidbody2D>().simulated = false;
+        }
+    }
+
     private void Update()
     {
         HandleUserInput();
+
+        SpawnPlayerBall();
     }
 
     private void FixedUpdate()
@@ -86,7 +107,7 @@ public class SlingshotInputHandler : MonoBehaviour
             // if finishing launch and pouch exits threshold proximity to resting position
             else if (_finishingSnapBack && restDisplacement > pouchProximityThreshold)
             {
-                FinishSnapBack();
+                StopSnapBack();
             }
 
             // if still _snappingBack, skip touch handling
@@ -146,7 +167,6 @@ public class SlingshotInputHandler : MonoBehaviour
         }
     }
 
-
     private void MovePouchTowardsRestPosition()
     {
         float speed = 300f;
@@ -185,7 +205,7 @@ public class SlingshotInputHandler : MonoBehaviour
     /// Stops snapping back _pouch and transfers _pouch velocity to _playerBall, which is detached from the pouch.
     /// _playerBall is derefenced after velocity is set in FixedUpdate()
     /// </summary>
-    private void FinishSnapBack()
+    private void StopSnapBack()
     {
         _snappingBack = false;
         _finishingSnapBack = false;
@@ -193,7 +213,7 @@ public class SlingshotInputHandler : MonoBehaviour
         // if ball is attached, launch
         if (_playerBall != null)
         {
-            // detach ball from pouch 
+            // detach ball from pouch and activate ball physics
             _playerBall.transform.SetParent(null);
             _playerBall.GetComponent<Rigidbody2D>().simulated = true;
 
