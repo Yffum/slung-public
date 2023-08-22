@@ -15,23 +15,30 @@ public class TargetCollider : MonoBehaviour
     {
         if (collision.tag == "Player Ball")
         {
-            // disable GameObject
-            this.gameObject.SetActive(false);
-
-            // spawn explosion effect
-            Spawner explosionSpawner = GameController.Spawn.ExplosionSpawner.GetComponent<Spawner>();
-            GameObject explosion = explosionSpawner.SpawnAt(this.transform.position);
-
-            // set explosion to same size as target collider
-            explosion.transform.localScale = (Vector2)this.transform.localScale * (Vector2)this.transform.parent.localScale;
-
-            // slow down animation by scale of target (parent) so that speed of the waves is always the same
-            explosion.GetComponent<Animator>().speed = 1f / this.transform.parent.localScale.x;
-
-            // invert player ball horizontal velocity so it bounces sideways 
-            collision.GetComponent<PlayerBall>().InvertVelocityQueued = true;//////////////////////DEPRECATED 
+            DestroyThisTarget();
         }
     }
+
+    private void DestroyThisTarget()
+    {
+        // disable GameObject
+        this.gameObject.SetActive(false);
+
+        // spawn explosion effect
+        Spawner explosionSpawner = GameController.Spawn.ExplosionSpawner.GetComponent<Spawner>();
+        GameObject explosion = explosionSpawner.SpawnAt(this.transform.position);
+
+        // set explosion to same size as target collider
+        explosion.transform.localScale = (Vector2)this.transform.localScale * (Vector2)this.transform.parent.localScale;
+
+        // slow down animation by scale of target (parent) so that speed of the waves is always the same
+        explosion.GetComponent<Animator>().speed = 1f / this.transform.parent.localScale.x;
+
+        GameController.Gui.IncrementPlayerScore();
+
+        // invert player ball horizontal velocity so it bounces sideways 
+        //collision.GetComponent<PlayerBall>().InvertVelocityQueued = true;//////////////////////DEPRECATED 
+    }    
 
     // make sure parent target is disabled, whether it's from a collision
     // or from leaving the game bounds trigger

@@ -10,10 +10,12 @@ public class GameController : MonoBehaviour
     public static ScreenController Screen { get; private set; }
     public static SpawnController Spawn { get; private set; }
     public static LevelController Level { get; private set; }
+    public static GuiController Gui { get; private set; }
 
 
     private void Awake()
     {
+        // make GameController singleton
         if (Game == null)
         {
             Game = this;
@@ -33,5 +35,6 @@ public class GameController : MonoBehaviour
         Screen = GetComponent<ScreenController>().Init();
         Spawn = GetComponent<SpawnController>().Init();
         Level = GetComponent<LevelController>().Init();
+        Gui = GetComponent<GuiController>().Init();
     }
 }
