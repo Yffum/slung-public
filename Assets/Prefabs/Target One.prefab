@@ -14,11 +14,11 @@ GameObject:
   - component: {fileID: 2474167312050571450}
   m_Layer: 3
   m_Name: Target One
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &538774298376477998
 Transform:
   m_ObjectHideFlags: 0
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b768bec2c7dd2949bf40b3cd5cf25d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 100
+  _speed: 50
 --- !u!50 &2474167312050571450
 Rigidbody2D:
   serializedVersion: 4
@@ -212,7 +212,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

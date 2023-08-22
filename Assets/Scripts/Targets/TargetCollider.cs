@@ -8,11 +8,22 @@ public class TargetCollider : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // disable entire target
-        this.gameObject.SetActive(false);
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Player Ball")
+        {
+            this.gameObject.SetActive(false);
 
 
-        this.transform.parent.GetComponent<Animator>().enabled = false;
-        this.transform.parent.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 100);
+            this.transform.parent.GetComponent<Animator>().enabled = false;
+            this.transform.parent.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 100);
+
+            // invert player ball horizontal velocity so it bounces sideways
+            collision.GetComponent<PlayerBall>().InvertVelocityQueued = true; 
+        }
     }
 
     // make sure parent target is disabled, whether it's from a collision

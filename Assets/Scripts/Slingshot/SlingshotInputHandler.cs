@@ -9,11 +9,14 @@ using static UnityEngine.GraphicsBuffer;
 /// </summary>
 public class SlingshotInputHandler : MonoBehaviour
 {
-    /// <summary> The upper bounds of the area in which touch input is received </summary>
+    /// <summary> The upper bound of the area in which touch input is received </summary>
     [SerializeField] private Transform _touchUpperBound;
 
-    /// <summary> The upper bounds of the pouch position </summary>
+    /// <summary> The upper bound of the pouch position </summary>
     [SerializeField] private Transform _pouchUpperBound;
+
+    /// <summary> The lower bound of the pouch position </summary>
+    [SerializeField] private Transform _pouchLowerBound;
 
     /// <summary> The position the pouch returns to </summary>
     [SerializeField] private Transform _pouchRestingSpot;
@@ -168,11 +171,17 @@ public class SlingshotInputHandler : MonoBehaviour
         // move pouch to touch
         _pouch.transform.position = position;
 
-        // limit vertical position to _pouchUpperBound
+        // limit vertical position to bounds
         if (_pouch.transform.position.y > _pouchUpperBound.position.y)
         {
             _pouch.transform.position = new Vector3(_pouch.transform.position.x, _pouchUpperBound.position.y);
         }
+        else if (_pouch.transform.position.y < _pouchLowerBound.position.y)
+        {
+            _pouch.transform.position = new Vector3(_pouch.transform.position.x, _pouchLowerBound.position.y);
+        }
+
+        
     }
 
     private void MovePouchTowardsRestPosition()
@@ -193,7 +202,7 @@ public class SlingshotInputHandler : MonoBehaviour
         Vector3 pouchDisplacement = _pouchRestingSpot.position - _pouch.transform.position;
 
         // set ball speed based on displacement magnitude
-        float ballSpeedFactor = 10f;
+        float ballSpeedFactor = 12f;
         float ballSpeed = pouchDisplacement.magnitude * ballSpeedFactor;
 
         // calculate velocity
@@ -241,7 +250,7 @@ public class SlingshotInputHandler : MonoBehaviour
     private void GrowPlayerBall()
     {
         // set ball final scale ( local! )
-        Vector3 ballFullScale = new Vector3(5f, 5f, 1);
+        Vector3 ballFullScale = new Vector3(6f, 6f, 1);
 
         float speed = 14f;
         float step = speed * Time.deltaTime; // calculate amount to increase scale

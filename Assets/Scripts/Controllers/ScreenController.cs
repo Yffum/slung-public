@@ -18,11 +18,14 @@ public class ScreenController : MonoBehaviour
 
     [SerializeField] private Transform _spawnPoint;
 
+    [SerializeField] private Transform _upperMenus;
+
     public ScreenController Init()
     {
         FitScreen();
 
         SetSpawnPoint();
+        SetUpperMenusPosition();
 
         //QualitySettings.vSyncCount = 1;
         //Application.targetFrameRate = (int)Screen.currentResolution.refreshRateRatio.value;
@@ -83,5 +86,21 @@ public class ScreenController : MonoBehaviour
 
         // reposition
         _spawnPoint.position = spawnPosition + buffer;
-    }    
+    } 
+    
+    /// <summary>
+    /// Set the _upperMenus parent game object position to the top middle of the screen
+    /// using Screen.width and Screen.height
+    /// </summary>
+    private void SetUpperMenusPosition()
+    {
+        // screen space origin is in bottom left, and we want top middle
+        Vector2 screenPosition = new Vector2(Screen.width / 2f, Screen.height);
+
+        // get global position
+        Vector2 globalPosition = GetGlobalPosition(screenPosition);
+
+        // reposition
+        _upperMenus.position = globalPosition;
+    }
 }
