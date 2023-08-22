@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8278398720042497465}
   - component: {fileID: 6261034351457271546}
   - component: {fileID: 2474167312050571450}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Target One
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,8 +47,8 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: c0376464a35e527469f39a674d2ec09f, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_UpdateMode: 1
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 1456961395066532386}
   - component: {fileID: 2840517091372708609}
   - component: {fileID: 7364797558303980991}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Target Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

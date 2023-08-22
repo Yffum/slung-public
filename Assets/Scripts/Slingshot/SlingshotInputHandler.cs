@@ -129,7 +129,7 @@ public class SlingshotInputHandler : MonoBehaviour
         {
             // get touch world position
             Touch touch = Input.GetTouch(Input.touchCount - 1);
-            Vector3 touchPosition = GameController.Screen.GetGlobalPosition(touch.position);
+            Vector3 touchPosition = ScreenController.GetGlobalPosition(touch.position);
 
             // get pouch displacement from resting position
             Vector3 pouchDisplacement = _pouchRestingSpot.position - _pouch.transform.position;
