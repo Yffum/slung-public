@@ -82,7 +82,7 @@ public class ScreenController : MonoBehaviour
         Vector2 spawnPosition = GetGlobalPosition(screenPosition);
 
         // add buffer so target can't be seen
-        Vector2 buffer = new Vector2(0, 10f);
+        Vector2 buffer = new Vector2(0, 15f);
 
         // reposition
         _spawnPoint.position = spawnPosition + buffer;

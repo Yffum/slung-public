@@ -555,6 +555,7 @@ MonoBehaviour:
   _spawnerPrefab: {fileID: 354998775403348286, guid: 99963a6f477e3974f8ec719a0e51c24d, type: 3}
   _playerBallPrefab: {fileID: 822867262199576595, guid: db4ff7433063ed64e94bae0fb344b85e, type: 3}
   _targetPrefab: {fileID: 3948835361161559000, guid: dcc1326f345be4f4c808f2a8fad645e9, type: 3}
+  _explosionPrefab: {fileID: 7882258151616316439, guid: cff1f965721d2fa4096d5adc9f315176, type: 3}
 --- !u!1 &376397521
 GameObject:
   m_ObjectHideFlags: 0

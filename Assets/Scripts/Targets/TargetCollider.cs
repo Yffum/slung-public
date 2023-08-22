@@ -15,14 +15,21 @@ public class TargetCollider : MonoBehaviour
     {
         if (collision.tag == "Player Ball")
         {
+            // disable GameObject
             this.gameObject.SetActive(false);
 
+            // spawn explosion effect
+            Spawner explosionSpawner = GameController.Spawn.ExplosionSpawner.GetComponent<Spawner>();
+            GameObject explosion = explosionSpawner.SpawnAt(this.transform.position);
 
-            //this.transform.parent.GetComponent<Animator>().enabled = false;
-            this.transform.parent.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 100);
+            // set explosion to same size as target collider
+            explosion.transform.localScale = (Vector2)this.transform.localScale * (Vector2)this.transform.parent.localScale;
 
-            // invert player ball horizontal velocity so it bounces sideways
-            collision.GetComponent<PlayerBall>().InvertVelocityQueued = true; 
+            // slow down animation by scale of target (parent) so that speed of the waves is always the same
+            explosion.GetComponent<Animator>().speed = 1f / this.transform.parent.localScale.x;
+
+            // invert player ball horizontal velocity so it bounces sideways 
+            collision.GetComponent<PlayerBall>().InvertVelocityQueued = true;//////////////////////DEPRECATED 
         }
     }
 

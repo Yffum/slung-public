@@ -10,7 +10,8 @@ public class SpawnController : MonoBehaviour
     [SerializeField] private GameObject _playerBallPrefab;
     public GameObject TargetSpawner { get; private set; }
     [SerializeField] private GameObject _targetPrefab;
-
+    public GameObject ExplosionSpawner { get; private set; }
+    [SerializeField] private GameObject _explosionPrefab;
 
 
     public SpawnController Init()
@@ -26,6 +27,9 @@ public class SpawnController : MonoBehaviour
 
         TargetSpawner = Instantiate(_spawnerPrefab);
         TargetSpawner.GetComponent<Spawner>().Init(_targetPrefab, 50);
+
+        ExplosionSpawner = Instantiate(_spawnerPrefab);
+        ExplosionSpawner.GetComponent<Spawner>().Init(_explosionPrefab, 10);
     }
 }
 

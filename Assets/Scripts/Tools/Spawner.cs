@@ -14,6 +14,8 @@ public class Spawner : MonoBehaviour
     /// </summary>
     private int totalObjectCount;
 
+    /// <param name="prefab"> Prefab of the game object </param>
+    /// <param name="_totalObjectCount"> The number of objects to instantiate and keep in memory </param>
     public Spawner Init(GameObject prefab, int _totalObjectCount)
     {
         inactiveObjects = new Stack<GameObject>();

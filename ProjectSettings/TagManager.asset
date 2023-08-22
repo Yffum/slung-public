@@ -46,6 +46,9 @@ TagManager:
   - name: Background
     uniqueID: 3794382891
     locked: 0
+  - name: Explosion
+    uniqueID: 575094451
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
@@ -57,7 +60,4 @@ TagManager:
     locked: 0
   - name: Projectiles
     uniqueID: 3985657381
-    locked: 0
-  - name: Explosion
-    uniqueID: 575094451
     locked: 0
