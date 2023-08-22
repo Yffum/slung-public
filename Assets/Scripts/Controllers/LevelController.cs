@@ -8,7 +8,7 @@ public class LevelController : MonoBehaviour
     [SerializeField] private Transform _spawnPoint;
 
     private float _targetSpawnTimer = 0f;
-    private float _targetSpawnDelay = 1f;
+    private float _targetSpawnDelay = 1.15f;
 
     public LevelController Init()
     {
@@ -32,6 +32,15 @@ public class LevelController : MonoBehaviour
             SpawnTarget();
         }
     }
+
+    /// <summary>
+    /// Stop the run and go to game over screen
+    /// </summary>
+    public void EndRun()
+    {
+
+    }
+
 
     private void SpawnTarget()
     {

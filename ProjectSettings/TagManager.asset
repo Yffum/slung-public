@@ -43,6 +43,9 @@ TagManager:
   - name: Dev Background
     uniqueID: 3694116231
     locked: 0
+  - name: Background
+    uniqueID: 3794382891
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
