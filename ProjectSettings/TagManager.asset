@@ -49,6 +49,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Slingshot Bands
+    uniqueID: 1310668497
+    locked: 0
   - name: Targets
     uniqueID: 1857199003
     locked: 0

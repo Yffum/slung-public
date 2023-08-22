@@ -11,11 +11,13 @@ public class PlayerBall : MonoBehaviour
 
     private void FixedUpdate()
     {
+        /*
         if (InvertVelocityQueued)
         {
             InvertVelocityX();
             InvertVelocityQueued = false;
         }
+        */
     }
 
     /// <summary>

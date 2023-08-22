@@ -17,7 +17,7 @@ public class Target : MonoBehaviour
 
         // activate child and enable oscillating animator
         this.transform.GetChild(0).gameObject.SetActive(true);
-        this.GetComponent<Animator>().enabled = true;
+        //this.GetComponent<Animator>().enabled = true;
     }
 
 }

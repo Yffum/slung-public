@@ -18,7 +18,7 @@ public class TargetCollider : MonoBehaviour
             this.gameObject.SetActive(false);
 
 
-            this.transform.parent.GetComponent<Animator>().enabled = false;
+            //this.transform.parent.GetComponent<Animator>().enabled = false;
             this.transform.parent.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 100);
 
             // invert player ball horizontal velocity so it bounces sideways
