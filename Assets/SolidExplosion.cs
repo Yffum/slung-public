@@ -9,9 +9,15 @@ public class SolidExplosion : MonoBehaviour
     /// </summary>
     public void OpenGameOverMenu()
     {
-        this.gameObject.SetActive(false);
-
-        GameController.Game.StopLevel();/////////////////////
+        // open game over menu
         GameController.Gui.OpenGameOverMenu();
+    }
+
+    /// <summary>
+    /// Note: This method is called by an animation event. Tells LevelController to CleanUpLevel
+    /// </summary>
+    public void CleanUpLevel()
+    {
+        GameController.Game.Level.CleanUpLevel();
     }
 }

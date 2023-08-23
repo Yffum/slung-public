@@ -13,16 +13,6 @@ public class GameController : MonoBehaviour
 
     /*Serialize*/ public LevelController Level;
 
-    public void StartLevel()
-    {
-        Level.gameObject.SetActive(true);
-    }    
-
-    public void StopLevel()
-    {
-        Level.gameObject.GetComponent<LevelController>().CleanUpLevel();
-    }
-
     private void Awake()
     {
         // make GameController singleton

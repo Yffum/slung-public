@@ -15,6 +15,8 @@ public class LevelController : MonoBehaviour
     public GameObject SolidExplosion;
     [SerializeField] private Transform _spawnPoint;
 
+    [SerializeField] private GameObject _slingshotInputHandler;
+
     private float _targetSpawnTimer = 0f;
     private float _targetSpawnDelay = 1.15f;
 
@@ -33,6 +35,9 @@ public class LevelController : MonoBehaviour
 
         // despawn level GameObjects
         GameController.Spawn.DespawnAll();
+
+        // stop level input
+        _slingshotInputHandler.SetActive(false);
     }   
 
     private void Update()

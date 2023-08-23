@@ -5,7 +5,15 @@ using UnityEngine;
 
 public class GuiController : MonoBehaviour
 {
+    /// <summary>
+    /// The player's current score, displayed in level
+    /// </summary>
     [SerializeField] private TextMeshProUGUI _playerScoreText;
+
+    /// <summary>
+    /// The score displayed in the _gameOverMenu
+    /// </summary>
+    [SerializeField] private TextMeshProUGUI _finalPlayerScoreText;
 
     [SerializeField] private GameObject _gameOverMenu;
 
@@ -31,6 +39,8 @@ public class GuiController : MonoBehaviour
 
     public void OpenGameOverMenu()
     {
+        _finalPlayerScoreText.text = _playerScore.ToString();
+
         _gameOverMenu.SetActive(true);
     }    
 

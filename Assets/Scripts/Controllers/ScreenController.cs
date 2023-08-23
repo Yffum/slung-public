@@ -18,7 +18,15 @@ public class ScreenController : MonoBehaviour
 
     [SerializeField] private Transform _spawnPoint;
 
+    /// <summary>
+    /// The parent of menus which align with the top of the screen
+    /// </summary>
     [SerializeField] private Transform _upperMenus;
+
+    /// <summary>
+    /// The parent of menus which align with the center of the screen
+    /// </summary>
+    [SerializeField] private Transform _centerMenus;
 
     public ScreenController Init()
     {
@@ -26,6 +34,7 @@ public class ScreenController : MonoBehaviour
 
         SetSpawnPoint();
         SetUpperMenusPosition();
+        SetCenterMenusPosition();
 
         //QualitySettings.vSyncCount = 1;
         //Application.targetFrameRate = (int)Screen.currentResolution.refreshRateRatio.value;
@@ -103,4 +112,19 @@ public class ScreenController : MonoBehaviour
         // reposition
         _upperMenus.position = globalPosition;
     }
+
+    /// <summary>
+    /// Set the _lowerMenus parent GameObject position to the center of the screen
+    /// </summary>
+    private void SetCenterMenusPosition()
+    {
+        // get center screen of screen
+        Vector2 screenPosition = new Vector2(Screen.width / 2f, Screen.height / 2f);
+
+        // get global position
+        Vector2 globalPosition = GetGlobalPosition(screenPosition);
+
+        //reposition
+        _centerMenus.position = globalPosition;
+    }    
 }
