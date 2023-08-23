@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class LevelController : MonoBehaviour
 {
+    /// <summary>
+    /// The graphic effect for game over
+    /// </summary>
+    /*Serialize*/
+    public GameObject SolidExplosion;
     [SerializeField] private Transform _spawnPoint;
 
     private float _targetSpawnTimer = 0f;
@@ -31,14 +36,6 @@ public class LevelController : MonoBehaviour
 
             SpawnTarget();
         }
-    }
-
-    /// <summary>
-    /// Stop the run and go to game over screen
-    /// </summary>
-    public void EndRun()
-    {
-
     }
 
 

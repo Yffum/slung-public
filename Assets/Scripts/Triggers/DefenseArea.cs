@@ -9,9 +9,11 @@ public class DefenseArea : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        /* NOW HANDLED BY TargetCollider.cs//////////////////// so it can use target position to spwna
         if (collision.tag == "Target")
         {
             GameController.Level.EndRun();
         }
+        */
     }
 }

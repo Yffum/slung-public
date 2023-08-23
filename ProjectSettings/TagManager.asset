@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Player Ball
   - Target
+  - Defense Area
   layers:
   - Default
   - TransparentFX
@@ -60,4 +61,10 @@ TagManager:
     locked: 0
   - name: Projectiles
     uniqueID: 3985657381
+    locked: 0
+  - name: Overlay Menu Background
+    uniqueID: 298624977
+    locked: 0
+  - name: Overlay Menu
+    uniqueID: 3993715467
     locked: 0

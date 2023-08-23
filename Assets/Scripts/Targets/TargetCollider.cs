@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class TargetCollider : MonoBehaviour
 {
-    // target is hit by player ball
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // disable entire target
-
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player Ball")
         {
             DestroyThisTarget();
+        }
+        else if (collision.tag == "Defense Area")
+        {
+            EndRun();
         }
     }
 
@@ -39,6 +36,22 @@ public class TargetCollider : MonoBehaviour
         // invert player ball horizontal velocity so it bounces sideways 
         //collision.GetComponent<PlayerBall>().InvertVelocityQueued = true;//////////////////////DEPRECATED 
     }    
+
+    /// <summary>
+    /// Ends the run and triggers animation which triggers game over menu
+    /// </summary>
+    private void EndRun()
+    {
+        // spawn game over explosion animation at target position and set scale
+        GameObject solidExplosion = GameController.Level.SolidExplosion;
+
+        solidExplosion.transform.position = this.transform.position;
+        solidExplosion.transform.localScale = (Vector2)this.transform.localScale * (Vector2)this.transform.parent.localScale;
+        solidExplosion.SetActive(true);
+
+        // freeze balls and targets
+        Time.timeScale = 0f;
+    }
 
     // make sure parent target is disabled, whether it's from a collision
     // or from leaving the game bounds trigger
