@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Spawns level objects. Disables self on CleanUpLevel() to stop spawning.
+/// </summary>
 public class LevelController : MonoBehaviour
 {
     /// <summary>
@@ -19,6 +22,18 @@ public class LevelController : MonoBehaviour
     {
         return this;
     }
+
+    public void CleanUpLevel()
+    {
+        // disable self so spawners stop spawning
+        this.gameObject.SetActive(false);
+
+        // unfreeze game
+        Time.timeScale = 1f;
+
+        // despawn level GameObjects
+        GameController.Spawn.DespawnAll();
+    }   
 
     private void Update()
     {

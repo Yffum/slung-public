@@ -43,7 +43,7 @@ public class TargetCollider : MonoBehaviour
     private void EndRun()
     {
         // spawn game over explosion animation at target position and set scale
-        GameObject solidExplosion = GameController.Level.SolidExplosion;
+        GameObject solidExplosion = GameController.Game.Level.SolidExplosion;
 
         solidExplosion.transform.position = this.transform.position;
         solidExplosion.transform.localScale = (Vector2)this.transform.localScale * (Vector2)this.transform.parent.localScale;

@@ -9,9 +9,19 @@ public class GameController : MonoBehaviour
     //------
     public static ScreenController Screen { get; private set; }
     public static SpawnController Spawn { get; private set; }
-    public static LevelController Level { get; private set; }
     public static GuiController Gui { get; private set; }
 
+    /*Serialize*/ public LevelController Level;
+
+    public void StartLevel()
+    {
+        Level.gameObject.SetActive(true);
+    }    
+
+    public void StopLevel()
+    {
+        Level.gameObject.GetComponent<LevelController>().CleanUpLevel();
+    }
 
     private void Awake()
     {
@@ -34,7 +44,6 @@ public class GameController : MonoBehaviour
     {
         Screen = GetComponent<ScreenController>().Init();
         Spawn = GetComponent<SpawnController>().Init();
-        Level = GetComponent<LevelController>().Init();
         Gui = GetComponent<GuiController>().Init();
     }
 }

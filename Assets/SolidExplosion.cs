@@ -5,12 +5,13 @@ using UnityEngine;
 public class SolidExplosion : MonoBehaviour
 {
     /// <summary>
-    /// This method is called by an animation event and opens the game over menu
+    /// Note: This method is called by an animation event. Unfreeze the game and open game over menu
     /// </summary>
     public void OpenGameOverMenu()
     {
         this.gameObject.SetActive(false);
 
+        GameController.Game.StopLevel();/////////////////////
         GameController.Gui.OpenGameOverMenu();
     }
 }
