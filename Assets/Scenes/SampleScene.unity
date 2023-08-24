@@ -1172,6 +1172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerScoreText: {fileID: 1512386511}
   _finalPlayerScoreText: {fileID: 2075278808}
+  _playerHighScoreText: {fileID: 412996588}
   _pullInstructions: {fileID: 519134988}
   _startCenterMenu: {fileID: 1677546853}
   _startLowerMenu: {fileID: 1331192006}

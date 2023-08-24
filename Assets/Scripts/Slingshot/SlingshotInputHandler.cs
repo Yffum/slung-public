@@ -55,10 +55,12 @@ public class SlingshotInputHandler : MonoBehaviour
         _finishingSnapBack = false;
 
         _pouch.transform.position = _pouchRestingSpot.position;
-
-        _pouchVelocityUpdateQueued = false;
-        _playerBallVelocityUpdateQueued = false;
-
+        /*
+        _pouchVelocityUpdateQueued = true;
+        _newPouchVelocity = Vector3.zero;
+        _playerBallVelocityUpdateQueued = true;
+        _newPlayerBallVelocity = Vector3.zero;
+        */
         _playerBall = null;
     }
 
@@ -113,10 +115,18 @@ public class SlingshotInputHandler : MonoBehaviour
         // update ball velocity and detach ball
         if (_playerBallVelocityUpdateQueued)
         {
-            _playerBall.GetComponent<Rigidbody2D>().velocity = _newPlayerBallVelocity;
-            _playerBallVelocityUpdateQueued = false;
+            if (_playerBall == null)
+            {
+                _newPlayerBallVelocity = Vector3.zero;
+                _playerBallVelocityUpdateQueued = false;
+            }   
+            else
+            {
+                _playerBall.GetComponent<Rigidbody2D>().velocity = _newPlayerBallVelocity;
+                _playerBallVelocityUpdateQueued = false;
 
-            _playerBall = null;
+                _playerBall = null;
+            }         
         }
     }
 

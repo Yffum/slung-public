@@ -15,6 +15,8 @@ public class GuiController : MonoBehaviour
     /// </summary>
     [SerializeField] private TextMeshProUGUI _finalPlayerScoreText;
 
+    [SerializeField] private TextMeshProUGUI _playerHighScoreText;
+
     /// <summary>
     /// The canvas group for "Pull &" and the down arrow in the start menu
     /// </summary>
@@ -27,6 +29,8 @@ public class GuiController : MonoBehaviour
     [SerializeField] private GameObject _gameOverMenu;
 
     private int _playerScore = 0;
+
+    private int _playerHighScore = 0;
 
     public GuiController Init()
     {
@@ -99,8 +103,24 @@ public class GuiController : MonoBehaviour
     /// </summary>
     public void OpenGameOverMenu()
     {
+        // conform final score text
         _finalPlayerScoreText.text = _playerScore.ToString();
 
+        // check for high score
+        if (_playerScore > _playerHighScore)
+        {
+            _playerHighScore = _playerScore;
+            _playerHighScoreText.text = _playerScore.ToString();
+        }
+
+        // reset score
+        _playerScore = 0;
+        UpdatePlayerScoreGraphic();
+
+        // turn off score
+        _playerScoreText.GetComponent<Animator>().SetTrigger("Disable");
+
+        // open menu
         _gameOverMenu.SetActive(true);
 
         _startCenterMenu.gameObject.SetActive(false);
