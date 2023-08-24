@@ -47,6 +47,9 @@ TagManager:
   - name: Background
     uniqueID: 3794382891
     locked: 0
+  - name: Logo
+    uniqueID: 2596953081
+    locked: 0
   - name: Explosion
     uniqueID: 575094451
     locked: 0

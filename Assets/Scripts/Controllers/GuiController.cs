@@ -20,6 +20,10 @@ public class GuiController : MonoBehaviour
     /// </summary>
     [SerializeField] private CanvasGroup _pullInstructions;
 
+    [SerializeField] private GameObject _startCenterMenu;
+
+    [SerializeField] private GameObject _startLowerMenu;
+
     [SerializeField] private GameObject _gameOverMenu;
 
     private int _playerScore = 0;
@@ -71,6 +75,24 @@ public class GuiController : MonoBehaviour
         _playerScoreText.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// This method is called by the GameOverMenu object during its animation, so that there is a delay (dictated by GamOverMenu's
+    /// animation) before the user can intercat with the start menu
+    /// </summary>
+    public void OpenStartMenu()
+    {
+        // allow user to "pull & release"
+        GameController.Game.Level.EnableUserInput();
+    }
+
+    public void CloseStartMenu()
+    {
+        _startCenterMenu.GetComponent<Animator>().SetTrigger("Disable");
+        _startLowerMenu.GetComponent<Animator>().SetTrigger("Disable");
+
+        EnablePlayerScore();
+    }
+
     //Task: Add check for new highscore==========///////////////////////////////////////
     /// <summary>
     /// Activate game over menu fade in animation and update final score text
@@ -80,11 +102,38 @@ public class GuiController : MonoBehaviour
         _finalPlayerScoreText.text = _playerScore.ToString();
 
         _gameOverMenu.SetActive(true);
+
+        _startCenterMenu.gameObject.SetActive(false);
+        _startLowerMenu.gameObject.SetActive(false);
     }
+
+    /// <summary>
+    /// Activate _gameOverMenu's close animation which contains an event that indirectly triggers OpenStartMenu
+    /// </summary>
+    public void CloseGameOverMenu()
+    {
+        _gameOverMenu.GetComponent<Animator>().SetTrigger("Close");
+
+        // disable SolidExplosion (which is acting as the _gameOverMenu background) because the animation uses its own background
+        GameController.Game.Level.SolidExplosion.SetActive(false);
+
+        // ready ball
+        GameController.Game.Level.SlingshotInputHandler.GetComponent<SlingshotInputHandler>().ResetState();
+
+        // ready start menu
+        _startCenterMenu.gameObject.SetActive(true);
+        _startCenterMenu.GetComponent<Animator>().SetTrigger("Enable");
+        _startLowerMenu.gameObject.SetActive(true);
+        _startLowerMenu.GetComponent<Animator>().SetTrigger("Enable");
+    }    
 
     private void Update()
     {
-        AdjustPullInstructionsTransparency();
+        // if level isn't running, adjust _pullInstructions transparency with pouch displacement
+        if (!GameController.Game.Level.IsRunning)
+        {
+            AdjustPullInstructionsTransparency();
+        }
     }
 
     /// <summary>

@@ -50,7 +50,9 @@ public class LevelController : MonoBehaviour
 
     public void StartLevel()
     {
+        IsRunning = true;
 
+        GameController.Gui.CloseStartMenu();
      
         EnableUserInput();
 

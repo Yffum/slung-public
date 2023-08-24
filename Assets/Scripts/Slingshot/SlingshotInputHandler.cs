@@ -49,6 +49,19 @@ public class SlingshotInputHandler : MonoBehaviour
     /// </summary>
     private bool _finishingSnapBack = false;
 
+    public void ResetState()
+    {
+        _snappingBack = false;
+        _finishingSnapBack = false;
+
+        _pouch.transform.position = _pouchRestingSpot.position;
+
+        _pouchVelocityUpdateQueued = false;
+        _playerBallVelocityUpdateQueued = false;
+
+        _playerBall = null;
+    }
+
     /// <summary>
     /// If there is no _playerBall attached to the pouch, spawn a new _playerBall
     /// </summary>
@@ -204,6 +217,11 @@ public class SlingshotInputHandler : MonoBehaviour
     private void SnapBack()
     {
         _snappingBack = true;
+
+        if (!GameController.Game.Level.IsRunning)
+        {
+            GameController.Game.Level.StartLevel();
+        }
 
         // get pouch displacement from resting position
         Vector3 pouchDisplacement = _pouchRestingSpot.position - _pouch.transform.position;
