@@ -13,8 +13,21 @@ public class LevelController : MonoBehaviour
     /// </summary>
     /*Serialize*/
     public GameObject SolidExplosion;
+
+    /// <summary>
+    /// True if user is currently playing a running level
+    /// </summary>
+    public bool IsRunning { get; private set; }
+
+    /// <summary>
+    /// The vertical position at which targets spawn. This Transform is adjusted by ScreenController
+    /// on startup such that is just above the screen.
+    /// </summary>
     [SerializeField] private Transform _spawnPoint;
 
+    /// <summary>
+    /// The object which spawns balls and controls user level input
+    /// </summary>
     [SerializeField] private GameObject _slingshotInputHandler;
 
     private float _targetSpawnTimer = 0f;
@@ -25,22 +38,65 @@ public class LevelController : MonoBehaviour
         return this;
     }
 
+    public void EnableUserInput()
+    {
+        _slingshotInputHandler.SetActive(true);
+    }
+
+    public void DisableUserInput()
+    {
+        _slingshotInputHandler.SetActive(false);
+    }    
+
+    public void StartLevel()
+    {
+
+     
+        EnableUserInput();
+
+        // enable self to start spawners
+        this.gameObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// Disable user input and freeze level, while SolidExplosion (which is called by TargetCollider like 
+    /// this method) expands to occlude level objects and then calls Level.CleanUpLevel() via animation event
+    /// </summary>
+    public void EndLevel()
+    {
+        IsRunning = false;
+
+        // freeze level
+        Time.timeScale = 0f;
+
+        DisableUserInput();
+    }
+
+    /// <summary>
+    /// This methos is called after Endlevel, by a SolidExplosion animation event, after the animation
+    /// occludes game objects so they can be despawned
+    /// </summary>
     public void CleanUpLevel()
     {
         // disable self so spawners stop spawning
         this.gameObject.SetActive(false);
 
-        // unfreeze game
+        // unfreeze level
         Time.timeScale = 1f;
 
         // despawn level GameObjects
         GameController.Spawn.DespawnAll();
-
-        // stop level input
-        _slingshotInputHandler.SetActive(false);
-    }   
+    }
 
     private void Update()
+    {
+        UpdateSpawnTimer();
+    }
+
+    /// <summary>
+    /// Update timer with deltaTime and spawn target if timer is done
+    /// </summary>
+    private void UpdateSpawnTimer()
     {
         _targetSpawnTimer += Time.deltaTime;
 
@@ -57,7 +113,6 @@ public class LevelController : MonoBehaviour
             SpawnTarget();
         }
     }
-
 
     private void SpawnTarget()
     {

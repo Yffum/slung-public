@@ -49,9 +49,9 @@ public class TargetCollider : MonoBehaviour
         solidExplosion.transform.localScale = (Vector2)this.transform.localScale * (Vector2)this.transform.parent.localScale;
         solidExplosion.SetActive(true);
 
-        // freeze balls and targets
-        Time.timeScale = 0f;
+        GameController.Game.Level.EndLevel();
     }
+
 
     // make sure parent target is disabled, whether it's from a collision
     // or from leaving the game bounds trigger
