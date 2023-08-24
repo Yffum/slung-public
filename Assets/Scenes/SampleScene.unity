@@ -453,7 +453,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 35, y: 30}
+  m_AnchoredPosition: {x: 35, y: 32}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &48983842
@@ -1265,6 +1265,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerScoreText: {fileID: 1512386511}
   _finalPlayerScoreText: {fileID: 2075278808}
+  _pullInstructions: {fileID: 519134988}
   _gameOverMenu: {fileID: 2035684178}
 --- !u!1 &374905258
 GameObject:
@@ -1652,7 +1653,7 @@ GameObject:
   - component: {fileID: 519134987}
   - component: {fileID: 519134988}
   m_Layer: 0
-  m_Name: Pull Content
+  m_Name: Pull Instructions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4065,8 +4066,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SolidExplosion: {fileID: 3013922318598711838}
+  SlingshotInputHandler: {fileID: 32242364}
   _spawnPoint: {fileID: 107052443}
-  _slingshotInputHandler: {fileID: 32242364}
 --- !u!1 &1512386509
 GameObject:
   m_ObjectHideFlags: 0

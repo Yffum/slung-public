@@ -15,6 +15,11 @@ public class GuiController : MonoBehaviour
     /// </summary>
     [SerializeField] private TextMeshProUGUI _finalPlayerScoreText;
 
+    /// <summary>
+    /// The canvas group for "Pull &" and the down arrow in the start menu
+    /// </summary>
+    [SerializeField] private CanvasGroup _pullInstructions;
+
     [SerializeField] private GameObject _gameOverMenu;
 
     private int _playerScore = 0;
@@ -75,7 +80,28 @@ public class GuiController : MonoBehaviour
         _finalPlayerScoreText.text = _playerScore.ToString();
 
         _gameOverMenu.SetActive(true);
-    }    
+    }
+
+    private void Update()
+    {
+        AdjustPullInstructionsTransparency();
+    }
+
+    /// <summary>
+    /// (Called every Update) Adjust the transparency of _pullInstructions based on the distance
+    /// of the slingshot pouch to its resting spot
+    /// </summary>
+    private void AdjustPullInstructionsTransparency()
+    {
+        // get pouch dispalcement from slingshot handler (accessed through level controller)
+        float pouchDisplacement = GameController.Game.Level.SlingshotInputHandler.GetComponent<SlingshotInputHandler>().GetPouchDisplacement();
+        float alphaDifference = pouchDisplacement / 60f;
+        if (alphaDifference > 1)
+        {
+            alphaDifference = 1;
+        }
+        _pullInstructions.alpha = 1 - alphaDifference;
+    }
 
     /// <summary>
     /// Updates the _playerScoreText graphic to correspond to the value of _playerScore

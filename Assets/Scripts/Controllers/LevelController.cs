@@ -15,6 +15,11 @@ public class LevelController : MonoBehaviour
     public GameObject SolidExplosion;
 
     /// <summary>
+    /// The object which spawns balls and controls user level input
+    /// </summary>
+    [SerializeField] public GameObject SlingshotInputHandler;
+
+    /// <summary>
     /// True if user is currently playing a running level
     /// </summary>
     public bool IsRunning { get; private set; }
@@ -24,11 +29,6 @@ public class LevelController : MonoBehaviour
     /// on startup such that is just above the screen.
     /// </summary>
     [SerializeField] private Transform _spawnPoint;
-
-    /// <summary>
-    /// The object which spawns balls and controls user level input
-    /// </summary>
-    [SerializeField] private GameObject _slingshotInputHandler;
 
     private float _targetSpawnTimer = 0f;
     private float _targetSpawnDelay = 1.15f;
@@ -40,12 +40,12 @@ public class LevelController : MonoBehaviour
 
     public void EnableUserInput()
     {
-        _slingshotInputHandler.SetActive(true);
+        SlingshotInputHandler.SetActive(true);
     }
 
     public void DisableUserInput()
     {
-        _slingshotInputHandler.SetActive(false);
+        SlingshotInputHandler.SetActive(false);
     }    
 
     public void StartLevel()

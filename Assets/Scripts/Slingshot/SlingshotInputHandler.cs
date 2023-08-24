@@ -72,6 +72,13 @@ public class SlingshotInputHandler : MonoBehaviour
         }
     }
 
+    /// <returns> Calculated distance from slingshot pouch to resting position </returns>
+    /// <remarks> For optimization, do not use repeatedly. Instantiate a new float and use that.</remarks>
+    public float GetPouchDisplacement()
+    {
+        return Vector3.Distance(_pouch.transform.position, _pouchRestingSpot.position);
+    }
+
     private void Update()
     {
         HandleUserInput();
@@ -106,7 +113,7 @@ public class SlingshotInputHandler : MonoBehaviour
 
         if (_snappingBack)
         {
-            float restDisplacement = Vector3.Distance(_pouch.transform.position, _pouchRestingSpot.position); // pouch distance from resting position
+            float restDisplacement = GetPouchDisplacement();
 
             // if not finishing launch and pouch is near resting spot, start finishing launch
             if (!_finishingSnapBack && restDisplacement < pouchProximityThreshold)
