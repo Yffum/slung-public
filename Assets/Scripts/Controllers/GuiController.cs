@@ -30,8 +30,6 @@ public class GuiController : MonoBehaviour
 
     private int _playerScore = 0;
 
-    private int _playerHighScore = 0;
-
     public GuiController Init()
     {
         UpdatePlayerScoreGraphic();
@@ -107,10 +105,12 @@ public class GuiController : MonoBehaviour
         _finalPlayerScoreText.text = _playerScore.ToString();
 
         // check for high score
-        if (_playerScore > _playerHighScore)
+        if (_playerScore > GameController.UserData.HighScore)
         {
-            _playerHighScore = _playerScore;
+            GameController.UserData.HighScore = _playerScore;
             _playerHighScoreText.text = _playerScore.ToString();
+
+            GameController.SaveUserData();
         }
 
         // reset score
@@ -143,6 +143,11 @@ public class GuiController : MonoBehaviour
         _startLowerMenu.gameObject.SetActive(true);
         _startLowerMenu.GetComponent<Animator>().SetTrigger("Enable");
     }    
+
+    public void UpdateHighScoreGraphic()
+    {
+        _playerHighScoreText.text = GameController.UserData.HighScore.ToString();
+    }
 
     private void Update()
     {
