@@ -16,6 +16,14 @@ public class ScreenController : MonoBehaviour
     /// </summary>
     private float _cameraDeltaYPosition = 0;
 
+    /// <summary>
+    /// The trigger which disables level objects that leave its bounds
+    /// </summary>
+    [SerializeField] private GameObject _levelBounds;
+
+    /// <summary>
+    /// The vertical position at which targets spawn
+    /// </summary>
     [SerializeField] private Transform _spawnPoint;
 
     /// <summary>
@@ -30,7 +38,9 @@ public class ScreenController : MonoBehaviour
 
     public ScreenController Init()
     {
-        FitScreen();
+        AdjustCameraToScreen();
+
+        FitLevelBoundsToScreen();
 
         SetSpawnPoint();
         SetUpperMenusPosition();
@@ -68,7 +78,7 @@ public class ScreenController : MonoBehaviour
     /// <summary>
     /// Resize the camera window according to screen ratio, and align to bottom
     /// </summary>
-    private void FitScreen()
+    private void AdjustCameraToScreen()
     {
         _originalOrthographicSize = Camera.main.orthographicSize;
 
@@ -78,6 +88,19 @@ public class ScreenController : MonoBehaviour
 
         Camera.main.transform.position += new Vector3(0f, _cameraDeltaYPosition, 0f);
     }
+
+    private void FitLevelBoundsToScreen()
+    {
+        // multiply this by Touch.position to get the global position of the touch
+        float globalToScreenPositionRatio = OrthographicHalfWidth * 2 / Screen.width; // Optimize: calculate this at initialization
+
+        // set width to screen width and height to 1.5x screen height so balls can go above the screen without despawning
+        Vector2 boundsSize = globalToScreenPositionRatio * (new Vector2(Screen.width, 1.5f * Screen.height));
+
+        _levelBounds.GetComponent<BoxCollider2D>().size = boundsSize;
+
+        _levelBounds.transform.position += new Vector3(0, _cameraDeltaYPosition, 0);
+    }    
 
     /// <summary>
     /// Set the spawn point for targets using Screen.width and Screen.height
