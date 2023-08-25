@@ -24,6 +24,8 @@ public class LevelController : MonoBehaviour
     /// </summary>
     public bool IsRunning { get; private set; }
 
+    public int PlayerScore { get; private set; }
+
     /// <summary>
     /// The vertical position at which targets spawn. This Transform is adjusted by ScreenController
     /// on startup such that is just above the screen.
@@ -37,6 +39,19 @@ public class LevelController : MonoBehaviour
     {
         return this;
     }
+
+    public void IncrementPlayerScore()
+    {
+        PlayerScore++;
+
+        GameController.Gui.IncrementScoreGraphic();
+    }
+
+    private void ResetPlayerScore()
+    {
+        PlayerScore = 0;
+        GameController.Gui.UpdateHighScoreGraphic();
+    }    
 
     public void EnableUserInput()
     {
@@ -91,6 +106,8 @@ public class LevelController : MonoBehaviour
 
         // ready ball
         GameController.Game.Level.SlingshotInputHandler.GetComponent<SlingshotInputHandler>().ResetState();
+
+        ResetPlayerScore();
     }
 
     private void Update()

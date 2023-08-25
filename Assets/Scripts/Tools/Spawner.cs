@@ -56,7 +56,7 @@ public class Spawner : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No inactive objects in memory. Active object recycled.");
+            //Debug.LogWarning("No inactive objects in memory. Active object recycled.");
             instance = activeObjects.Dequeue();
         }
 

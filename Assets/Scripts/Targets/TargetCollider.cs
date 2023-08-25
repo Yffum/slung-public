@@ -31,7 +31,7 @@ public class TargetCollider : MonoBehaviour
         // slow down animation by scale of target (parent) so that speed of the waves is always the same
         explosion.GetComponent<Animator>().speed = 1f / this.transform.parent.localScale.x;
 
-        GameController.Gui.IncrementPlayerScore();
+        GameController.Gui.IncrementScoreGraphic();
 
         // invert player ball horizontal velocity so it bounces sideways 
         //collision.GetComponent<PlayerBall>().InvertVelocityQueued = true;//////////////////////DEPRECATED 

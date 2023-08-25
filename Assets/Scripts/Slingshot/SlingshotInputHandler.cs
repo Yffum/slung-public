@@ -64,6 +64,8 @@ public class SlingshotInputHandler : MonoBehaviour
         // must set directly because level is frozen, but it shouldn't be an issue because level isn't running
         _pouch.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
 
+        _proximityThreshold.SetActive(false);
+
         _playerBall = null;
     }
 

@@ -28,8 +28,6 @@ public class GuiController : MonoBehaviour
 
     [SerializeField] private GameObject _gameOverMenu;
 
-    private int _playerScore = 0;
-
     public GuiController Init()
     {
         UpdatePlayerScoreGraphic();
@@ -41,14 +39,18 @@ public class GuiController : MonoBehaviour
     /// Give player a point, update _playerScoreText, and trigger animation 
     /// to expand _playerScoreText as feedback.
     /// </summary>
-    public void IncrementPlayerScore()
+    public void IncrementScoreGraphic()
     {
-        _playerScore++;
 
         UpdatePlayerScoreGraphic();
 
         // trigger animation
         _playerScoreText.gameObject.GetComponent<Animator>().SetTrigger("Expand");
+    }
+
+    public void ResetScoreGraphic()
+    {
+
     }
 
     /// <summary>
@@ -101,21 +103,19 @@ public class GuiController : MonoBehaviour
     /// </summary>
     public void OpenGameOverMenu()
     {
-        // conform final score text
-        _finalPlayerScoreText.text = _playerScore.ToString();
+        int score = GameController.Game.Level.PlayerScore;
 
-        // check for high score
-        if (_playerScore > GameController.UserData.HighScore)
+        // conform final score text
+        _finalPlayerScoreText.text = score.ToString();
+
+        // if high score, update graphic and save data
+        if (score > GameController.UserData.HighScore)
         {
-            GameController.UserData.HighScore = _playerScore;
-            _playerHighScoreText.text = _playerScore.ToString();
+            GameController.UserData.HighScore = score;
+            _playerHighScoreText.text = score.ToString();
 
             GameController.SaveUserData();
         }
-
-        // reset score
-        _playerScore = 0;
-        UpdatePlayerScoreGraphic();
 
         // turn off score
         _playerScoreText.GetComponent<Animator>().SetTrigger("Disable");
@@ -142,7 +142,15 @@ public class GuiController : MonoBehaviour
         _startCenterMenu.GetComponent<Animator>().SetTrigger("Enable");
         _startLowerMenu.gameObject.SetActive(true);
         _startLowerMenu.GetComponent<Animator>().SetTrigger("Enable");
-    }    
+    }
+
+    /// <summary>
+    /// Updates the _playerScoreText graphic to correspond to the value of _playerScore
+    /// </summary>
+    public void UpdatePlayerScoreGraphic()
+    {
+        _playerScoreText.text = GameController.Game.Level.PlayerScore.ToString();
+    }
 
     public void UpdateHighScoreGraphic()
     {
@@ -172,13 +180,5 @@ public class GuiController : MonoBehaviour
             alphaDifference = 1;
         }
         _pullInstructions.alpha = 1 - alphaDifference;
-    }
-
-    /// <summary>
-    /// Updates the _playerScoreText graphic to correspond to the value of _playerScore
-    /// </summary>
-    private void UpdatePlayerScoreGraphic()
-    {
-        _playerScoreText.text = _playerScore.ToString();
     }
 }
