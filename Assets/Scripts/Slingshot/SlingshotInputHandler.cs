@@ -26,6 +26,11 @@ public class SlingshotInputHandler : MonoBehaviour
     /// </summary>
     [SerializeField] private GameObject _pouch;
 
+    /// <summary>
+    /// The collider positioned at _pouchRestingSpot, which detaches the ball when the pouch exits, and then disables self
+    /// </summary>
+    [SerializeField] private GameObject _proximityThreshold;
+
     //-------for adjusting RigidBody2D velocity
     private bool _pouchVelocityUpdateQueued = false;
     private Vector3 _newPouchVelocity = Vector3.zero;
@@ -94,6 +99,32 @@ public class SlingshotInputHandler : MonoBehaviour
         return Vector3.Distance(_pouch.transform.position, _pouchRestingSpot.position);
     }
 
+    /// <summary>
+    /// Stops snapping back _pouch and transfers _pouch velocity to _playerBall, which is detached from the pouch.
+    /// _playerBall is derefenced after velocity is set in FixedUpdate()
+    /// </summary>
+    public void DetachBall()
+    {
+        _snappingBack = false;
+        _finishingSnapBack = false;
+
+        // if ball is attached, launch
+        if (_playerBall != null)
+        {
+            // detach ball from pouch and activate ball physics
+            _playerBall.transform.SetParent(null, true);
+            _playerBall.GetComponent<Rigidbody2D>().simulated = true;
+
+            // pass velocity to ball
+            _newPlayerBallVelocity = _pouch.GetComponent<Rigidbody2D>().velocity;
+            _playerBallVelocityUpdateQueued = true;
+        }
+
+        // set pouch velocity to 0
+        _newPouchVelocity = Vector3.zero;
+        _pouchVelocityUpdateQueued = true;
+    }
+
     private void Update()
     {
         HandleUserInput();
@@ -132,13 +163,15 @@ public class SlingshotInputHandler : MonoBehaviour
 
     private void HandleUserInput()
     {
-        float pouchProximityThreshold = 20f; // maximum distance from the resting spot in which playerBall is in proximity
+        float pouchProximityThreshold = _proximityThreshold.GetComponent<CircleCollider2D>().radius; // maximum distance from the resting spot in which playerBall is in proximity
 
         if (_snappingBack)
         {
+            return;
+
             float restDisplacement = GetPouchDisplacement();
 
-            // if not finishing launch and pouch is near resting spot, start finishing launch
+            // if not finishing snap back and pouch is near resting spot, start finishing snap back
             if (!_finishingSnapBack && restDisplacement < pouchProximityThreshold)
             {
                 _finishingSnapBack = true;
@@ -148,7 +181,7 @@ public class SlingshotInputHandler : MonoBehaviour
             // if finishing launch and pouch exits threshold proximity to resting position
             else if (_finishingSnapBack && restDisplacement > pouchProximityThreshold)
             {
-                DetachBall();
+                //DetachBall(); // replaced with _proximityThreshold
             }
 
             // if still _snappingBack, skip touch handling
@@ -226,8 +259,11 @@ public class SlingshotInputHandler : MonoBehaviour
     /// </summary>
     private void SnapBack()
     {
+        // prepare _proximityThreshold, which detaches ball on exit
+        _proximityThreshold.SetActive(true);
         _snappingBack = true;
 
+        // start level if it hasn't started already
         if (!GameController.Game.Level.IsRunning)
         {
             GameController.Game.Level.StartLevel();
@@ -254,36 +290,11 @@ public class SlingshotInputHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// Stops snapping back _pouch and transfers _pouch velocity to _playerBall, which is detached from the pouch.
-    /// _playerBall is derefenced after velocity is set in FixedUpdate()
-    /// </summary>
-    private void DetachBall()
-    {
-        _snappingBack = false;
-        _finishingSnapBack = false;
-
-        // if ball is attached, launch
-        if (_playerBall != null)
-        {
-            // detach ball from pouch and activate ball physics
-            _playerBall.transform.SetParent(null, true);
-            _playerBall.GetComponent<Rigidbody2D>().simulated = true;
-
-            // pass velocity to ball
-            _newPlayerBallVelocity = _pouch.GetComponent<Rigidbody2D>().velocity;
-            _playerBallVelocityUpdateQueued = true;
-        }
-
-        // set pouch velocity to 0
-        _newPouchVelocity = Vector3.zero;
-        _pouchVelocityUpdateQueued = true;
-    }
-
-    /// <summary>
     /// Scale the ball towards full size--run every Update()
     /// </summary>
     private void GrowPlayerBall()
     {
+
         // set ball final scale ( local! )
         Vector3 ballFullScale = new Vector3(6f, 6f, 1);
 

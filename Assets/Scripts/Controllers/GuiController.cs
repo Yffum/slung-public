@@ -137,9 +137,6 @@ public class GuiController : MonoBehaviour
         // disable SolidExplosion (which is acting as the _gameOverMenu background) because the animation uses its own background
         GameController.Game.Level.SolidExplosion.SetActive(false);
 
-        // ready ball
-        GameController.Game.Level.SlingshotInputHandler.GetComponent<SlingshotInputHandler>().ResetState();
-
         // ready start menu
         _startCenterMenu.gameObject.SetActive(true);
         _startCenterMenu.GetComponent<Animator>().SetTrigger("Enable");

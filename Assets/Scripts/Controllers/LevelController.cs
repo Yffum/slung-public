@@ -88,6 +88,9 @@ public class LevelController : MonoBehaviour
 
         // despawn level GameObjects
         GameController.Spawn.DespawnAll();
+
+        // ready ball
+        GameController.Game.Level.SlingshotInputHandler.GetComponent<SlingshotInputHandler>().ResetState();
     }
 
     private void Update()
