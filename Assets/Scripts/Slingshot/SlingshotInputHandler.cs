@@ -60,9 +60,11 @@ public class SlingshotInputHandler : MonoBehaviour
         _finishingSnapBack = false;
 
         _pouch.transform.position = _pouchRestingSpot.position;
-        /*
+        
         _pouchVelocityUpdateQueued = true;
         _newPouchVelocity = Vector3.zero;
+
+        /* // this might mess up detaching the ball
         _playerBallVelocityUpdateQueued = true;
         _newPlayerBallVelocity = Vector3.zero;
         */
