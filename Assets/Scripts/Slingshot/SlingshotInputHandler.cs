@@ -61,13 +61,9 @@ public class SlingshotInputHandler : MonoBehaviour
 
         _pouch.transform.position = _pouchRestingSpot.position;
         
-        _pouchVelocityUpdateQueued = true;
-        _newPouchVelocity = Vector3.zero;
+        // must set directly because level is frozen, but it shouldn't be an issue because level isn't running
+        _pouch.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
 
-        /* // this might mess up detaching the ball
-        _playerBallVelocityUpdateQueued = true;
-        _newPlayerBallVelocity = Vector3.zero;
-        */
         _playerBall = null;
     }
 
