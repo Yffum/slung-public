@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,8 +33,30 @@ public class LevelController : MonoBehaviour
     /// </summary>
     [SerializeField] private Transform _spawnPoint;
 
+    /// <summary>
+    /// The times (in seconds) since stsarting the level at which the game increases in difficulty
+    /// </summary>
+    private readonly int[] _timeMilestones = { 5, 15, 30, 60, 100, 200, 300 };
+
+    /// <summary>
+    /// The current difficulty level, which is incremented when a new time milestone is reached
+    /// </summary>
+    private int _currentDifficulty = 0;
+
+    /// <summary>
+    /// The amount of time (in seconds) since the last target was spawned
+    /// </summary>
     private float _targetSpawnTimer = 0f;
-    private float _targetSpawnDelay = 1.15f;
+
+    /// <summary>
+    /// The amount of time (in seconds) between target spawns
+    /// </summary>
+    private float _targetSpawnTimeInterval = 1.15f;
+
+    /// <summary>
+    /// The amount of time (in seconds) since the level started
+    /// </summary>
+    private float _levelTimer = 0f;
 
     public LevelController Init()
     {
@@ -107,41 +130,67 @@ public class LevelController : MonoBehaviour
         // ready ball
         GameController.Game.Level.SlingshotInputHandler.GetComponent<SlingshotInputHandler>().ResetState();
 
+        // reset level timer
+        _levelTimer = 0f;
+        _currentDifficulty = 0;
+
         ResetPlayerScore();
     }
 
     private void Update()
     {
-        UpdateSpawnTimer();
+        // update level timer
+        _levelTimer += Time.deltaTime;
+        _targetSpawnTimer += Time.deltaTime;
+
+        UpdateDifficulty();
+
+        UpdateSpawnTimerAndSpawnIfReady();
+    }
+
+    private void UpdateDifficulty()
+    {
+        if (_levelTimer > _timeMilestones[_currentDifficulty])
+        {
+            _currentDifficulty++;
+
+            Debug.Log("Difficulty = " + _currentDifficulty + "\n" +
+                "Last time milestone = " + _levelTimer + " seconds");
+
+            if (_currentDifficulty >= _timeMilestones.Length)
+            {
+                _currentDifficulty = _timeMilestones.Length - 1;
+            }
+        }
     }
 
     /// <summary>
     /// Update timer with deltaTime and spawn target if timer is done
     /// </summary>
-    private void UpdateSpawnTimer()
+    private void UpdateSpawnTimerAndSpawnIfReady()
     {
-        _targetSpawnTimer += Time.deltaTime;
-
-        // Check if we have reached beyond 2 seconds.
+        // Check if we have reached beyond the spwan time interval.
         // Subtracting two is more accurate over time than resetting to zero.
-        if (_targetSpawnTimer > _targetSpawnDelay)
+        if (_targetSpawnTimer > _targetSpawnTimeInterval)
         {
 
-            // Remove the recorded 2 seconds.
-            _targetSpawnTimer -= _targetSpawnDelay;
+            // reset timer (Unity recommends subtracting timer limit, rather than reseting to zero)
+            _targetSpawnTimer -= _targetSpawnTimeInterval;
 
-            //Time.timeScale = scrollBar;
-
-            SpawnTarget();
+            AdjustTargetBasedOnTimePassed(SpawnTarget());
         }
     }
 
-    private void SpawnTarget()
+    /// <summary>
+    /// Spawn target in random position just above top of the screen
+    /// </summary>
+    /// <returns> The target spawned </returns>
+    private Target SpawnTarget()
     {
         Spawner targetSpawner = GameController.Spawn.TargetSpawner.GetComponent<Spawner>();
 
         // the amount by which the target position varies in the animation
-        // (this prevents target from spawning offscreen)
+        // (this prevents target from moving offscreen)
         float edgeDisplacement = 15;
 
         // subtract range from half the width of the level
@@ -150,8 +199,97 @@ public class LevelController : MonoBehaviour
         // get random x position
         float xPosition = Random.Range(-spawnRange, spawnRange);
 
-        Vector3 spawnPosition = new Vector3(xPosition, _spawnPoint.position.y); 
+        // set spawn position
+        Vector3 spawnPosition = new Vector3(xPosition, _spawnPoint.position.y);
 
-        targetSpawner.SpawnAt(spawnPosition);
+        // spawn and return target component
+        Target target = targetSpawner.SpawnAt(spawnPosition).GetComponent<Target>();
+
+        return target;
+    }
+
+    private void AdjustTargetBasedOnTimePassed(Target target)
+    {
+        int fallSpeed;
+        float animationSpeed;
+        float size;
+        float spawnInterval;
+
+        /*
+        switch (_currentDifficulty)
+        {
+            case 0: // start
+                fallSpeed = 50;
+                size = 2;
+                spawnInterval = 2f;
+                break;
+            case 1: // > 5 seconds
+                fallSpeed = 65;
+                size = 1.8f;
+                spawnInterval = 1.8f;
+                break;
+            case 2: // > 15 seconds
+                fallSpeed = 80;
+                size = 1.8f;
+                spawnInterval = 1.8f;
+                break;
+            case 3: // > 30 seconds
+                fallSpeed = 95;
+                size = 1.6f;
+                spawnInterval = 1.6f;
+                break;
+            case 4: // > 60 seconds
+                fallSpeed = 90;
+                size = 1.4f;
+                spawnInterval = 1.4f;
+                break;
+            case 5: // > 100 seconds
+                fallSpeed = 100;
+                size = 1.2f;
+                spawnInterval = 1.2f;
+                break;
+            case 6: // > 200 seconds
+                fallSpeed = 110;
+                size = 1.1f;
+                spawnInterval = 1.1f;
+                break;
+            case 7: // > 300 seconds
+                fallSpeed = 120;
+                size = 1f;
+                spawnInterval = 1f;
+                break;
+
+            default:
+                Debug.LogWarning("Settings not implemented for currentDiffculty");
+                fallSpeed = 100;
+                animationSpeed = 1f;
+                size = 1;
+                spawnInterval = 1f;
+                break;
+        }
+        */
+
+        // calculate target traits based on _currentDifficulty
+        fallSpeed = 50 + (_currentDifficulty * 8);
+        size = 2 - (_currentDifficulty * 0.15f);
+        spawnInterval = 2 * Mathf.Pow(0.85f, _currentDifficulty);
+
+        animationSpeed = (float)fallSpeed / 100f;
+
+        target.GetComponent<Rigidbody2D>().velocity = new Vector2 (0, (float)-fallSpeed * Random.Range(0.8f, 1.2f));
+        target.GetComponent<Animator>().speed = animationSpeed * Random.Range(0.8f, 1.2f);
+        target.transform.localScale = Vector3.one * size * Random.Range(0.8f, 1.2f);
+        _targetSpawnTimeInterval = spawnInterval;
+
+        
+        if (Random.Range(0,2) == 1)
+        {
+            target.GetComponent<Animator>().SetTrigger("Go Left");
+        }
+        else
+        {
+            target.GetComponent<Animator>().SetTrigger("Go Right");
+        }
+        
     }
 }

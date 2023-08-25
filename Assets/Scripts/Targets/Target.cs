@@ -8,12 +8,12 @@ using UnityEngine;
 public class Target : MonoBehaviour
 {
     // the speed at which the target descends
-    [SerializeField] float _speed;
+    [System.NonSerialized] public float Speed = 100;
 
     private void OnEnable()
     {
         // descend
-        this.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -_speed);
+        this.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -Speed);
 
         // activate child and enable oscillating animator
         this.transform.GetChild(0).gameObject.SetActive(true);
