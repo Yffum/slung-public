@@ -36,12 +36,12 @@ public class LevelController : MonoBehaviour
     /// <summary>
     /// The times (in seconds) since stsarting the level at which the game increases in difficulty
     /// </summary>
-    private readonly int[] _timeMilestones = { 5, 15, 30, 60, 100, 200, 300 };
+    private readonly int[] _timeMilestones = { 5, 15, 30, 60, 100, 200 };
 
     /// <summary>
     /// The current difficulty level, which is incremented when a new time milestone is reached
     /// </summary>
-    private int _currentDifficulty = 0;
+    private int _currentDifficulty = 5;
 
     /// <summary>
     /// The amount of time (in seconds) since the last target was spawned
@@ -150,18 +150,17 @@ public class LevelController : MonoBehaviour
 
     private void UpdateDifficulty()
     {
-        if (_levelTimer > _timeMilestones[_currentDifficulty])
+        if (_currentDifficulty < _timeMilestones.Length)
         {
-            _currentDifficulty++;
-
-            Debug.Log("Difficulty = " + _currentDifficulty + "\n" +
-                "Last time milestone = " + _levelTimer + " seconds");
-
-            if (_currentDifficulty >= _timeMilestones.Length)
+            if (_levelTimer > _timeMilestones[_currentDifficulty])
             {
-                _currentDifficulty = _timeMilestones.Length - 1;
+                _currentDifficulty++;
+
+                Debug.Log("Difficulty = " + _currentDifficulty + "\n" +
+                    "Last time milestone = " + _levelTimer + " seconds");
             }
         }
+
     }
 
     /// <summary>
@@ -270,15 +269,15 @@ public class LevelController : MonoBehaviour
         */
 
         // calculate target traits based on _currentDifficulty
-        fallSpeed = 50 + (_currentDifficulty * 8);
+        fallSpeed = 40 + (_currentDifficulty * 4);
         size = 2 - (_currentDifficulty * 0.15f);
-        spawnInterval = 2 * Mathf.Pow(0.85f, _currentDifficulty);
+        spawnInterval = 3f * Mathf.Pow(0.8f, _currentDifficulty);
 
-        animationSpeed = (float)fallSpeed / 100f;
+        animationSpeed = ((fallSpeed / 100f) + (.1f * _currentDifficulty));
 
-        target.GetComponent<Rigidbody2D>().velocity = new Vector2 (0, (float)-fallSpeed * Random.Range(0.8f, 1.2f));
-        target.GetComponent<Animator>().speed = animationSpeed * Random.Range(0.8f, 1.2f);
-        target.transform.localScale = Vector3.one * size * Random.Range(0.8f, 1.2f);
+        target.GetComponent<Rigidbody2D>().velocity = new Vector2 (0, (float)-fallSpeed * Random.Range(0.7f, 1.3f));
+        target.GetComponent<Animator>().speed = animationSpeed * Random.Range(0.7f, 1.3f);
+        target.transform.localScale = Vector3.one * size * Random.Range(0.7f, 1.3f);
         _targetSpawnTimeInterval = spawnInterval;
 
         
