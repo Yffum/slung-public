@@ -36,7 +36,7 @@ public class LevelController : MonoBehaviour
     /// <summary>
     /// The times (in seconds) since stsarting the level at which the game increases in difficulty
     /// </summary>
-    private readonly int[] _timeMilestones = { 5, 15, 30, 60, 100, 200 };
+    private readonly int[] _timeMilestones = { 5, 10, 20, 30, 45, 60 };
 
     /// <summary>
     /// The current difficulty level, which is incremented when a new time milestone is reached

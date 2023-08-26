@@ -8,6 +8,12 @@ public class TargetCollider : MonoBehaviour
     {
         if (collision.tag == "Player Ball")
         {
+            PlayerBall ball = collision.GetComponent<PlayerBall>();
+
+            // increment ball hit counter and then use it to play sound
+            ball.HandleTargetHit();
+            GameController.Sound.PlayArpeggioOne(ball.TargetHitCount - 1);
+            //GameController.Sound.PlaySynth();
             DestroyThisTarget();
         }
         else if (collision.tag == "Defense Area")
@@ -18,6 +24,7 @@ public class TargetCollider : MonoBehaviour
 
     private void DestroyThisTarget()
     {
+
         // disable GameObject
         this.gameObject.SetActive(false);
 

@@ -9,6 +9,22 @@ public class PlayerBall : MonoBehaviour
     /// </summary>
     public bool InvertVelocityQueued = false;
 
+    /// <summary>
+    /// The number of targets this ball has hit since spawning. Set by TargetCollider, and
+    /// then used to determine sound to play
+    /// </summary>
+    public int TargetHitCount { get; private set; }
+
+    public void HandleTargetHit()
+    {
+        TargetHitCount++;
+    }
+
+    private void OnDisable()
+    {
+        TargetHitCount = 0;
+    }
+
     private void FixedUpdate()
     {
         /*

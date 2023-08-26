@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour
     public static UserData UserData { get; private set; }
     //------
     public static ScreenController Screen { get; private set; }
+    public static SoundController Sound { get; private set; }
     public static SpawnController Spawn { get; private set; }
     public static GuiController Gui { get; private set; }
 
@@ -59,6 +60,7 @@ public class GameController : MonoBehaviour
         UserData = new UserData();
 
         Screen = GetComponent<ScreenController>().Init();
+        Sound = GetComponent<SoundController>().Init();
         Spawn = GetComponent<SpawnController>().Init();
         Gui = GetComponent<GuiController>().Init();
     }
