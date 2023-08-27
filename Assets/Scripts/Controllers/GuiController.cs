@@ -22,11 +22,15 @@ public class GuiController : MonoBehaviour
     /// </summary>
     [SerializeField] private CanvasGroup _pullInstructions;
 
-    [SerializeField] private GameObject _startCenterMenu;
 
+    [SerializeField] private GameObject _startUpperMenu;
+    [SerializeField] private GameObject _startCenterMenu;
     [SerializeField] private GameObject _startLowerMenu;
 
     [SerializeField] private GameObject _gameOverMenu;
+
+    [SerializeField] private GameObject _pauseMenu;
+    [SerializeField] private GameObject _pauseButton;
 
     public GuiController Init()
     {
@@ -48,16 +52,12 @@ public class GuiController : MonoBehaviour
         _playerScoreText.gameObject.GetComponent<Animator>().SetTrigger("Expand");
     }
 
-    public void ResetScoreGraphic()
-    {
-
-    }
-
     /// <summary>
     /// Enables _playerScoreText which automatically triggers fade in animation
     /// </summary>
     public void EnablePlayerScore()
     {
+        UpdatePlayerScoreGraphic();
         _playerScoreText.gameObject.SetActive(true);
     }
 
@@ -91,6 +91,7 @@ public class GuiController : MonoBehaviour
 
     public void CloseStartMenu()
     {
+        _startUpperMenu.GetComponent<Animator>().SetTrigger("Disable");
         _startCenterMenu.GetComponent<Animator>().SetTrigger("Disable");
         _startLowerMenu.GetComponent<Animator>().SetTrigger("Disable");
 
@@ -138,10 +139,32 @@ public class GuiController : MonoBehaviour
         GameController.Game.Level.SolidExplosion.SetActive(false);
 
         // ready start menu
-        _startCenterMenu.gameObject.SetActive(true);
+        _startUpperMenu.SetActive(true);
+        _startUpperMenu.GetComponent<Animator>().SetTrigger("Enable");
+        _startCenterMenu.SetActive(true);
         _startCenterMenu.GetComponent<Animator>().SetTrigger("Enable");
-        _startLowerMenu.gameObject.SetActive(true);
+        _startLowerMenu.SetActive(true);
         _startLowerMenu.GetComponent<Animator>().SetTrigger("Enable");
+    }
+
+    public void EnablePauseButton()
+    {
+        _pauseButton.SetActive(true);
+    }
+
+    public void DisablePauseButton()
+    {
+        _pauseButton.SetActive(false);
+    }
+
+    public void OpenPauseMenu()
+    {
+        _pauseMenu.SetActive(true);
+    }
+
+    public void ClosePauseMenu()
+    {
+        _pauseMenu.GetComponent<Animator>().SetTrigger("Disable");
     }
 
     /// <summary>

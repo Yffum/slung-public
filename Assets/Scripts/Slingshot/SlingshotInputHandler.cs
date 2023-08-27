@@ -268,6 +268,11 @@ public class SlingshotInputHandler : MonoBehaviour
         {
             GameController.Game.Level.StartLevel();
         }
+        // only play sound if level is running, so it doesn't overlap level start sound
+        else
+        {
+            GameController.Sound.PlaySlingshotSound();
+        }
 
         // get pouch displacement from resting position
         Vector3 pouchDisplacement = _pouchRestingSpot.position - _pouch.transform.position;

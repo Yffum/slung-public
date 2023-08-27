@@ -90,7 +90,11 @@ public class LevelController : MonoBehaviour
     {
         IsRunning = true;
 
+        GameController.Sound.PlayStartLevelSound();
+
         GameController.Gui.CloseStartMenu();
+
+        GameController.Gui.EnablePauseButton();
      
         EnableUserInput();
 
@@ -106,10 +110,34 @@ public class LevelController : MonoBehaviour
     {
         IsRunning = false;
 
+        GameController.Sound.PlayEndLevelSound();
+
         // freeze level
         Time.timeScale = 0f;
 
         DisableUserInput();
+
+        GameController.Gui.DisablePauseButton();
+    }
+
+    public void PauseLevel()
+    {
+        Time.timeScale = 0f;
+
+        DisableUserInput();
+
+        GameController.Gui.OpenPauseMenu();
+
+        GameController.Gui.DisablePauseButton();
+    }
+
+    public void UnpauseLevel()
+    {
+        Time.timeScale = 1f;
+
+        EnableUserInput();
+
+        GameController.Gui.EnablePauseButton();
     }
 
     /// <summary>
@@ -146,6 +174,14 @@ public class LevelController : MonoBehaviour
         UpdateDifficulty();
 
         UpdateSpawnTimerAndSpawnIfReady();
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        if (!focus && IsRunning)
+        {
+            PauseLevel();
+        }
     }
 
     private void UpdateDifficulty()
