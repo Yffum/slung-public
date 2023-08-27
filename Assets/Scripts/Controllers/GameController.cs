@@ -58,6 +58,8 @@ public class GameController : MonoBehaviour
         {
             GameController.Sound.MuteAll();
         }
+
+        GameController.Sound.PlayEndLevelSound();
     }
 
     private void InitializeMembers()
