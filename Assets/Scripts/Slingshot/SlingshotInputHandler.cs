@@ -200,9 +200,20 @@ public class SlingshotInputHandler : MonoBehaviour
             // get pouch displacement from resting position
             Vector3 pouchDisplacement = _pouchRestingSpot.position - _pouch.transform.position;
 
+            // limit touch upper bounds before level starts to prevent starting when tapping logo
+            float touchUpperBound;
+            if (GameController.Game.Level.IsRunning)
+            {
+                touchUpperBound = _touchUpperBound.position.y;
+            }
+            else
+            {
+                touchUpperBound = _pouchUpperBound.position.y;
+            }
+
             // if touch is within bounds
             if ((touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
-                && touchPosition.y < _touchUpperBound.position.y)
+                && touchPosition.y < touchUpperBound)
             {
                 // move pouch with user touch position
                 MovePouchToPosition(touchPosition);

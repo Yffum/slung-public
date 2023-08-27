@@ -24,6 +24,8 @@ public class ButtonHandler : MonoBehaviour
     public void PressPause()
     {
         GameController.Game.Level.PauseLevel();
+
+        GameController.Sound.PlayBlipSound();
     }
 
     public void PressReadyFromPauseMenu()

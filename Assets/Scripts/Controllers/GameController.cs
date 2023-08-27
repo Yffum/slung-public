@@ -53,6 +53,11 @@ public class GameController : MonoBehaviour
         LoadUserData();
 
         Gui.UpdateHighScoreGraphic();
+
+        if (UserData.IsMuted)
+        {
+            GameController.Sound.MuteAll();
+        }
     }
 
     private void InitializeMembers()

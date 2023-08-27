@@ -5,4 +5,6 @@ using UnityEngine;
 public class UserData
 {
     public int HighScore = 0;
+
+    public bool IsMuted = false;
 }

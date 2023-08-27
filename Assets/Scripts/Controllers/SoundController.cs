@@ -36,6 +36,10 @@ public class SoundController : MonoBehaviour
 
     public void MuteAll()
     {
+        GameController.UserData.IsMuted = true;
+
+        GameController.SaveUserData();
+
         //_camera.GetComponent<AudioListener>().enabled = false;
         AudioListener.volume = 0f;
         _muteButton.SetActive(false);
@@ -44,6 +48,10 @@ public class SoundController : MonoBehaviour
 
     public void UnmuteAll()
     {
+        GameController.UserData.IsMuted = false;
+
+        GameController.SaveUserData();
+
         //_camera.GetComponent<AudioListener>().enabled = true;
         AudioListener.volume = 1f;
         _muteButton.SetActive(true);

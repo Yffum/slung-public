@@ -164,6 +164,8 @@ public class GuiController : MonoBehaviour
 
     public void ClosePauseMenu()
     {
+        GameController.Sound.PlayBlipSound();
+
         _pauseMenu.GetComponent<Animator>().SetTrigger("Disable");
     }
 
