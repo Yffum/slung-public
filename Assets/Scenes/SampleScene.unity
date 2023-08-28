@@ -2024,7 +2024,7 @@ MonoBehaviour:
   _camera: {fileID: 519420031}
   _muteButton: {fileID: 1880675429}
   _unmuteButton: {fileID: 1085232499}
-  _slingshotSound: {fileID: 8300000, guid: 13ca07f64fb513c4bb41250d44c64b12, type: 3}
+  _slingshotSound: {fileID: 8300000, guid: f43d3de9df4f83e45b09ee394778e919, type: 3}
   _startLevelSound: {fileID: 8300000, guid: 346fb1ccc21a01e42a7ca723102bab2e, type: 3}
   _endLevelSound: {fileID: 8300000, guid: 39fdbac09bb8ef34ab4a6d2b71f8c529, type: 3}
   _blipSound: {fileID: 8300000, guid: 65a6c4aa26ffe9f43a963b3cf1a37206, type: 3}
