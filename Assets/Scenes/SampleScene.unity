@@ -1986,6 +1986,7 @@ MonoBehaviour:
   _finalPlayerScoreText: {fileID: 2075278808}
   _playerHighScoreText: {fileID: 412996588}
   _pullInstructions: {fileID: 519134988}
+  _postSplashCurtain: {fileID: 1862287125}
   _startUpperMenu: {fileID: 1486234210}
   _startCenterMenu: {fileID: 1677546853}
   _startLowerMenu: {fileID: 1331192006}
@@ -8280,7 +8281,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1862287126
 RectTransform:
   m_ObjectHideFlags: 0

@@ -60,6 +60,8 @@ public class GameController : MonoBehaviour
         }
 
         GameController.Sound.PlayEndLevelSound();
+
+        GameController.Gui.ActivatePostSplashCurtain();
     }
 
     private void InitializeMembers()

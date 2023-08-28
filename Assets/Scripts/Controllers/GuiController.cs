@@ -22,6 +22,8 @@ public class GuiController : MonoBehaviour
     /// </summary>
     [SerializeField] private CanvasGroup _pullInstructions;
 
+    [SerializeField] private GameObject _postSplashCurtain;
+
 
     [SerializeField] private GameObject _startUpperMenu;
     [SerializeField] private GameObject _startCenterMenu;
@@ -37,6 +39,11 @@ public class GuiController : MonoBehaviour
         UpdatePlayerScoreGraphic();
 
         return this;
+    }
+
+    public void ActivatePostSplashCurtain()
+    {
+        _postSplashCurtain.SetActive(true);
     }
 
     /// <summary>
