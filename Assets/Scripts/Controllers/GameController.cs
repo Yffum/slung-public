@@ -50,8 +50,6 @@ public class GameController : MonoBehaviour
 
         InitializeMembers();
 
-        SaveUserData();
-
         LoadUserData();
 
         Gui.UpdateHighScoreGraphic();

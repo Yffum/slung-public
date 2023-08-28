@@ -33,6 +33,8 @@ public class GuiController : MonoBehaviour
     [SerializeField] private GameObject _highScoreNotification;
     [SerializeField] private GameObject _finalScoreSubtitleText;
 
+    [SerializeField] private GameObject _levelHUD;
+
     [SerializeField] private GameObject _pauseMenu;
     [SerializeField] private GameObject _pauseButton;
 
@@ -61,24 +63,7 @@ public class GuiController : MonoBehaviour
         _playerScoreText.gameObject.GetComponent<Animator>().SetTrigger("Expand");
     }
 
-    /// <summary>
-    /// Enables _playerScoreText which automatically triggers fade in animation
-    /// </summary>
-    public void EnablePlayerScore()
-    {
-        UpdatePlayerScoreGraphic();
-        _playerScoreText.gameObject.SetActive(true);
-    }
-
-    /// <summary>
-    /// Trigger animation which fades out and then disables
-    /// </summary>
-    public void DisablePlayerScore()
-    {
-        // trigger animation with event which disables self
-        _playerScoreText.gameObject.GetComponent<Animator>().SetTrigger("Disable");
-    }
-
+    /*
     /// <summary>
     /// This event should only be called by the animation event after playing the
     /// disable animation. To active this animation, use DisablePlayerScore()
@@ -87,6 +72,7 @@ public class GuiController : MonoBehaviour
     {
         _playerScoreText.gameObject.SetActive(false);
     }
+    */
 
     /// <summary>
     /// This method is called by the GameOverMenu object during its animation, so that there is a delay (dictated by GamOverMenu's
@@ -103,8 +89,6 @@ public class GuiController : MonoBehaviour
         _startUpperMenu.GetComponent<Animator>().SetTrigger("Disable");
         _startCenterMenu.GetComponent<Animator>().SetTrigger("Disable");
         _startLowerMenu.GetComponent<Animator>().SetTrigger("Disable");
-
-        EnablePlayerScore();
     }
 
     //Task: Add check for new highscore==========///////////////////////////////////////
@@ -137,8 +121,6 @@ public class GuiController : MonoBehaviour
             _finalScoreSubtitleText.SetActive(true);
         }
 
-        // turn off score
-        _playerScoreText.GetComponent<Animator>().SetTrigger("Disable");
 
         // open menu
         _gameOverMenu.SetActive(true);
@@ -166,6 +148,17 @@ public class GuiController : MonoBehaviour
         _startLowerMenu.GetComponent<Animator>().SetTrigger("Enable");
     }
 
+    public void EnableLevelHUD()
+    {
+        _levelHUD.SetActive(true);
+        UpdatePlayerScoreGraphic();
+    }
+
+    public void DisableLevelHUD()
+    {
+        _levelHUD.GetComponent<Animator>().SetTrigger("Disable");
+    }
+
     public void EnablePauseButton()
     {
         _pauseButton.SetActive(true);
@@ -179,6 +172,8 @@ public class GuiController : MonoBehaviour
     public void OpenPauseMenu()
     {
         _pauseMenu.SetActive(true);
+
+        DisablePauseButton();
     }
 
     public void ClosePauseMenu()

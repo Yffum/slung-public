@@ -36,12 +36,13 @@ public class LevelController : MonoBehaviour
     /// <summary>
     /// The times (in seconds) since stsarting the level at which the game increases in difficulty
     /// </summary>
-    private readonly int[] _timeMilestones = { 5, 10, 20, 30, 45, 60, 75};
+    private readonly int[] _timeMilestones = { 2, 5, 10, 20, 30, 40, 50, 60};
 
     /// <summary>
     /// The current difficulty level, which is incremented when a new time milestone is reached
     /// </summary>
-    private int _currentDifficulty = 7;
+    /// </summary>
+    private int _currentDifficulty = 8;
 
     /// <summary>
     /// The amount of time (in seconds) since the last target was spawned
@@ -93,8 +94,7 @@ public class LevelController : MonoBehaviour
         GameController.Sound.PlayStartLevelSound();
 
         GameController.Gui.CloseStartMenu();
-
-        GameController.Gui.EnablePauseButton();
+        GameController.Gui.EnableLevelHUD();
      
         EnableUserInput();
 
@@ -117,7 +117,7 @@ public class LevelController : MonoBehaviour
 
         DisableUserInput();
 
-        GameController.Gui.DisablePauseButton();
+        GameController.Gui.DisableLevelHUD();
     }
 
     public void PauseLevel()
@@ -127,8 +127,6 @@ public class LevelController : MonoBehaviour
         DisableUserInput();
 
         GameController.Gui.OpenPauseMenu();
-
-        GameController.Gui.DisablePauseButton();
     }
 
     public void UnpauseLevel()
@@ -305,9 +303,9 @@ public class LevelController : MonoBehaviour
         */
 
         // calculate target traits based on _currentDifficulty
-        fallSpeed = 40 + (_currentDifficulty * 4);
-        size = 2 - (_currentDifficulty * 0.15f);
-        spawnInterval = 3f * Mathf.Pow(0.8f, _currentDifficulty);
+        fallSpeed = 35 + (_currentDifficulty * 3);
+        size = 2 - (_currentDifficulty * 0.12f);
+        spawnInterval = 3f * Mathf.Pow(0.77f, _currentDifficulty);
 
         animationSpeed = ((fallSpeed / 100f) + (.1f * _currentDifficulty));
 

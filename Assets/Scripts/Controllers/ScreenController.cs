@@ -61,7 +61,7 @@ public class ScreenController : MonoBehaviour
     public static Vector3 GetGlobalPosition(Vector2 screenPosition)
     {
         // multiply this by Touch.position to get the global position of the touch
-        float globalToScreenPositionRatio = OrthographicHalfWidth * 2 / Screen.width; // Optimize: calculate this at initialization
+        float globalToScreenPositionRatio = OrthographicHalfWidth * 2 / Screen.safeArea.width; // Optimize: calculate this at initialization
 
         // calculate position from ratio
         float xPosition = screenPosition.x * globalToScreenPositionRatio;
@@ -82,7 +82,7 @@ public class ScreenController : MonoBehaviour
     {
         _originalOrthographicSize = Camera.main.orthographicSize;
 
-        Camera.main.orthographicSize = OrthographicHalfWidth * Screen.height / Screen.width;
+        Camera.main.orthographicSize = OrthographicHalfWidth * Screen.safeArea.height / Screen.safeArea.width;
 
         _cameraDeltaYPosition = Camera.main.orthographicSize - _originalOrthographicSize;
 
@@ -92,10 +92,10 @@ public class ScreenController : MonoBehaviour
     private void FitLevelBoundsToScreen()
     {
         // multiply this by Touch.position to get the global position of the touch
-        float globalToScreenPositionRatio = OrthographicHalfWidth * 2 / Screen.width; // Optimize: calculate this at initialization
+        float globalToScreenPositionRatio = OrthographicHalfWidth * 2 / Screen.safeArea.width; // Optimize: calculate this at initialization
 
         // set width to screen width and height to 1.5x screen height so balls can go above the screen without despawning
-        Vector2 boundsSize = globalToScreenPositionRatio * (new Vector2(Screen.width, 1.5f * Screen.height));
+        Vector2 boundsSize = globalToScreenPositionRatio * (new Vector2(Screen.safeArea.width, 1.5f * Screen.safeArea.height));
 
         _levelBounds.GetComponent<BoxCollider2D>().size = boundsSize;
 
@@ -103,12 +103,12 @@ public class ScreenController : MonoBehaviour
     }    
 
     /// <summary>
-    /// Set the spawn point for targets using Screen.width and Screen.height
+    /// Set the spawn point for targets using Screen.safeArea.width and Screen.safeArea.height
     /// </summary>
     private void SetSpawnPoint()
     {
         // screen space origin is in bottom left, and we want top middle
-        Vector2 screenPosition = new Vector2(Screen.width / 2f, Screen.height);
+        Vector2 screenPosition = new Vector2(Screen.safeArea.width / 2f, Screen.safeArea.height);
 
         // get global position
         Vector2 spawnPosition = GetGlobalPosition(screenPosition);
@@ -122,12 +122,12 @@ public class ScreenController : MonoBehaviour
     
     /// <summary>
     /// Set the _upperMenus parent game object position to the top middle of the screen
-    /// using Screen.width and Screen.height
+    /// using Screen.safeArea.width and Screen.safeArea.height
     /// </summary>
     private void SetUpperMenusPosition()
     {
         // screen space origin is in bottom left, and we want top middle
-        Vector2 screenPosition = new Vector2(Screen.width / 2f, Screen.height);
+        Vector2 screenPosition = new Vector2(Screen.safeArea.width / 2f, Screen.safeArea.height);
 
         // get global position
         Vector2 globalPosition = GetGlobalPosition(screenPosition);
@@ -142,7 +142,7 @@ public class ScreenController : MonoBehaviour
     private void SetCenterMenusPosition()
     {
         // get center screen of screen
-        Vector2 screenPosition = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Vector2 screenPosition = new Vector2(Screen.safeArea.width / 2f, Screen.safeArea.height / 2f);
 
         // get global position
         Vector2 globalPosition = GetGlobalPosition(screenPosition);

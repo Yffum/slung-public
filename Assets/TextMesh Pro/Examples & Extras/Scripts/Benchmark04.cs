@@ -24,8 +24,8 @@ namespace TMPro.Examples
             m_Transform = transform;
 
             float lineHeight = 0;
-            float orthoSize = Camera.main.orthographicSize = Screen.height / 2;
-            float ratio = (float)Screen.width / Screen.height;
+            float orthoSize = Camera.main.orthographicSize = Screen.safeArea.height / 2;
+            float ratio = (float)Screen.safeArea.width / Screen.safeArea.height;
 
             for (int i = MinPointSize; i <= MaxPointSize; i += Steps)
             {
