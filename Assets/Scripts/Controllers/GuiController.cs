@@ -30,6 +30,8 @@ public class GuiController : MonoBehaviour
     [SerializeField] private GameObject _startLowerMenu;
 
     [SerializeField] private GameObject _gameOverMenu;
+    [SerializeField] private GameObject _highScoreNotification;
+    [SerializeField] private GameObject _finalScoreSubtitleText;
 
     [SerializeField] private GameObject _pauseMenu;
     [SerializeField] private GameObject _pauseButton;
@@ -123,6 +125,16 @@ public class GuiController : MonoBehaviour
             _playerHighScoreText.text = score.ToString();
 
             GameController.SaveUserData();
+
+            // activate crown image to notify player
+            _highScoreNotification.SetActive(true);
+            _finalScoreSubtitleText.SetActive(false);
+        }
+        else
+        {
+            // deactivate crown if not high score
+            _highScoreNotification.SetActive(false);
+            _finalScoreSubtitleText.SetActive(true);
         }
 
         // turn off score

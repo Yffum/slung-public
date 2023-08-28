@@ -54,6 +54,11 @@ public class SlingshotInputHandler : MonoBehaviour
     /// </summary>
     private bool _finishingSnapBack = false;
 
+    /// <summary>
+    /// The position where the screen was last initially touched
+    /// </summary>
+    private Vector2 _initialTouchPosition = Vector2.zero;
+
     public void ResetState()
     {
         _snappingBack = false;
@@ -211,8 +216,14 @@ public class SlingshotInputHandler : MonoBehaviour
                 touchUpperBound = _pouchUpperBound.position.y;
             }
 
+            // prevent taps
+            if ( touch.phase == TouchPhase.Began )
+            {
+                _initialTouchPosition = touch.position;
+            }
+
             // if touch is within bounds
-            if ((touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
+            else if ((touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
                 && touchPosition.y < touchUpperBound)
             {
                 // move pouch with user touch position
@@ -221,7 +232,8 @@ public class SlingshotInputHandler : MonoBehaviour
 
             // if touch ends and pouch is not in proximity of the resting spot
             else if (touch.phase == TouchPhase.Ended
-                && pouchDisplacement.magnitude > pouchProximityThreshold)
+                && pouchDisplacement.magnitude > pouchProximityThreshold
+                && _initialTouchPosition != touch.position)
             {
                 SnapBack();
             }
