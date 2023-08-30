@@ -25,6 +25,13 @@ public class PlayerBall : MonoBehaviour
         TargetHitCount = 0;
     }
 
+    /* // Doesn't sound good and is distracting
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        GameController.Sound.PlayThudSound();
+    }
+    */
+
     private void FixedUpdate()
     {
         /*

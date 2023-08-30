@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SoundController : MonoBehaviour
 {
-
     [SerializeField] private Camera _camera;
     [SerializeField] private GameObject _muteButton;
     [SerializeField] private GameObject _unmuteButton;
@@ -14,6 +13,7 @@ public class SoundController : MonoBehaviour
     [SerializeField] private AudioClip _startLevelSound;
     [SerializeField] private AudioClip _endLevelSound;
     [SerializeField] private AudioClip _blipSound;
+    [SerializeField] private AudioClip _thudSound;
 
     /// <summary>
     /// The audio source used for non-explosions
@@ -78,6 +78,11 @@ public class SoundController : MonoBehaviour
     public void PlayBlipSound()
     {
         _speaker.PlayOneShot(_blipSound);
+    }
+
+    public void PlayThudSound()
+    {
+        _speaker.PlayOneShot(_thudSound);
     }
 
 

@@ -36,13 +36,13 @@ public class LevelController : MonoBehaviour
     /// <summary>
     /// The times (in seconds) since stsarting the level at which the game increases in difficulty
     /// </summary>
-    private readonly int[] _timeMilestones = { 2, 5, 10, 20, 30, 40, 50, 60};
+    private readonly int[] _timeMilestones = { 2, 5, 10, 15, 20, 30, 40, 55, 70, 90 };
 
     /// <summary>
     /// The current difficulty level, which is incremented when a new time milestone is reached
     /// </summary>
     /// </summary>
-    private int _currentDifficulty = 8;
+    private int _currentDifficulty = 10;
 
     /// <summary>
     /// The amount of time (in seconds) since the last target was spawned
@@ -243,73 +243,14 @@ public class LevelController : MonoBehaviour
 
     private void AdjustTargetBasedOnTimePassed(Target target)
     {
-        int fallSpeed;
-        float animationSpeed;
-        float size;
-        float spawnInterval;
-
-        /*
-        switch (_currentDifficulty)
-        {
-            case 0: // start
-                fallSpeed = 50;
-                size = 2;
-                spawnInterval = 2f;
-                break;
-            case 1: // > 5 seconds
-                fallSpeed = 65;
-                size = 1.8f;
-                spawnInterval = 1.8f;
-                break;
-            case 2: // > 15 seconds
-                fallSpeed = 80;
-                size = 1.8f;
-                spawnInterval = 1.8f;
-                break;
-            case 3: // > 30 seconds
-                fallSpeed = 95;
-                size = 1.6f;
-                spawnInterval = 1.6f;
-                break;
-            case 4: // > 60 seconds
-                fallSpeed = 90;
-                size = 1.4f;
-                spawnInterval = 1.4f;
-                break;
-            case 5: // > 100 seconds
-                fallSpeed = 100;
-                size = 1.2f;
-                spawnInterval = 1.2f;
-                break;
-            case 6: // > 200 seconds
-                fallSpeed = 110;
-                size = 1.1f;
-                spawnInterval = 1.1f;
-                break;
-            case 7: // > 300 seconds
-                fallSpeed = 120;
-                size = 1f;
-                spawnInterval = 1f;
-                break;
-
-            default:
-                Debug.LogWarning("Settings not implemented for currentDiffculty");
-                fallSpeed = 100;
-                animationSpeed = 1f;
-                size = 1;
-                spawnInterval = 1f;
-                break;
-        }
-        */
-
         // calculate target traits based on _currentDifficulty
-        fallSpeed = 35 + (_currentDifficulty * 3);
-        size = 2 - (_currentDifficulty * 0.12f);
-        spawnInterval = 3f * Mathf.Pow(0.77f, _currentDifficulty);
+        float fallSpeed = 27f + (_currentDifficulty * 2.5f);
+        float size = 2f - (_currentDifficulty * 0.09f);
+        float spawnInterval = 3f - (_currentDifficulty * 0.22f); //* Mathf.Pow(0.85f, _currentDifficulty);
 
-        animationSpeed = ((fallSpeed / 100f) + (.1f * _currentDifficulty));
+        float animationSpeed = ((fallSpeed / 100f) + (.1f * _currentDifficulty));
 
-        target.GetComponent<Rigidbody2D>().velocity = new Vector2 (0, (float)-fallSpeed * Random.Range(0.7f, 1.3f));
+        target.GetComponent<Rigidbody2D>().velocity = new Vector2 (0, -fallSpeed * Random.Range(0.7f, 1.3f));
         target.GetComponent<Animator>().speed = animationSpeed * Random.Range(0.7f, 1.3f);
         target.transform.localScale = Vector3.one * size * Random.Range(0.7f, 1.3f);
         _targetSpawnTimeInterval = spawnInterval;
@@ -323,6 +264,5 @@ public class LevelController : MonoBehaviour
         {
             target.GetComponent<Animator>().SetTrigger("Go Right");
         }
-        
     }
 }

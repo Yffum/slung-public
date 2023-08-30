@@ -301,7 +301,7 @@ public class SlingshotInputHandler : MonoBehaviour
         Vector3 pouchDisplacement = _pouchRestingSpot.position - _pouch.transform.position;
 
         // set ball speed based on displacement magnitude
-        float ballSpeedFactor = 12f;
+        float ballSpeedFactor = 11f;
         float ballSpeed = pouchDisplacement.magnitude * ballSpeedFactor;
 
         // calculate velocity
@@ -326,7 +326,7 @@ public class SlingshotInputHandler : MonoBehaviour
         // set ball final scale ( local! )
         Vector3 ballFullScale = new Vector3(6f, 6f, 1);
 
-        float speed = 14f;
+        float speed = 10f;
         float step = speed * Time.deltaTime; // calculate amount to increase scale
         _playerBall.transform.localScale = Vector3.MoveTowards(_playerBall.transform.localScale, ballFullScale, step);
     }    

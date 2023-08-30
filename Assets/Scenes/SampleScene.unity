@@ -2028,6 +2028,7 @@ MonoBehaviour:
   _startLevelSound: {fileID: 8300000, guid: 346fb1ccc21a01e42a7ca723102bab2e, type: 3}
   _endLevelSound: {fileID: 8300000, guid: 39fdbac09bb8ef34ab4a6d2b71f8c529, type: 3}
   _blipSound: {fileID: 8300000, guid: 65a6c4aa26ffe9f43a963b3cf1a37206, type: 3}
+  _thudSound: {fileID: 8300000, guid: 90c5d8dd8894e6f4babe694947334a8f, type: 3}
   _speaker: {fileID: 1852625354}
   _quietSpeaker: {fileID: 713925234}
   _arpeggioOne: {fileID: 472888448}
