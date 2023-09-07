@@ -36,13 +36,13 @@ public class LevelController : MonoBehaviour
     /// <summary>
     /// The times (in seconds) since stsarting the level at which the game increases in difficulty
     /// </summary>
-    private readonly int[] _timeMilestones = { 2, 5, 10, 15, 20, 25, 30, 35, 45, 60 };
+    private readonly int[] _timeMilestones = { 1, 4, 7, 10, 15, 20, 25, 30, 35, 45};
 
     /// <summary>
     /// The current difficulty level, which is incremented when a new time milestone is reached
     /// </summary>
     /// </summary>
-    private int _currentDifficulty = 10;
+    private int _currentDifficulty = 0;
 
     /// <summary>
     /// The amount of time (in seconds) since the last target was spawned
@@ -244,7 +244,7 @@ public class LevelController : MonoBehaviour
     private void AdjustTargetBasedOnTimePassed(Target target)
     {
         // calculate target traits based on _currentDifficulty
-        float fallSpeed = 50f + (_currentDifficulty * 2.7f);
+        float fallSpeed = 54f + (_currentDifficulty * 2.7f);
         float size = 2f - (_currentDifficulty * 0.09f);
         float spawnInterval = 3f - (_currentDifficulty * 0.24f); //* Mathf.Pow(0.85f, _currentDifficulty);
 

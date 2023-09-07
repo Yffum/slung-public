@@ -326,7 +326,7 @@ public class SlingshotInputHandler : MonoBehaviour
         // set ball final scale ( local! )
         Vector3 ballFullScale = new Vector3(6f, 6f, 1);
 
-        float speed = 9f;
+        float speed = 8f;
         float step = speed * Time.deltaTime; // calculate amount to increase scale
         _playerBall.transform.localScale = Vector3.MoveTowards(_playerBall.transform.localScale, ballFullScale, step);
     }    
