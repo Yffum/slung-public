@@ -2937,7 +2937,7 @@ GameObject:
   - component: {fileID: 476061543}
   - component: {fileID: 476061542}
   m_Layer: 0
-  m_Name: Upper Black Screen Border
+  m_Name: Lower Black Screen Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

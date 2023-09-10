@@ -173,33 +173,12 @@ public class SlingshotInputHandler : MonoBehaviour
         if (_snappingBack)
         {
             return;
-
-            float restDisplacement = GetPouchDisplacement();
-
-            // if not finishing snap back and pouch is near resting spot, start finishing snap back
-            if (!_finishingSnapBack && restDisplacement < pouchProximityThreshold)
-            {
-                _finishingSnapBack = true;
-                return;
-            }
-
-            // if finishing launch and pouch exits threshold proximity to resting position
-            else if (_finishingSnapBack && restDisplacement > pouchProximityThreshold)
-            {
-                //DetachBall(); // replaced with _proximityThreshold
-            }
-
-            // if still _snappingBack, skip touch handling
-            else
-            {
-                return;
-            }
         }
 
         if (Input.touchCount > 0)
         {
             // get touch world position
-            Touch touch = Input.GetTouch(Input.touchCount - 1);
+            Touch touch = Input.GetTouch(0);
             Vector3 touchPosition = ScreenController.GetGlobalPosition(touch.position);
 
             // get pouch displacement from resting position

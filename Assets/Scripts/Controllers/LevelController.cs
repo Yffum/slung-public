@@ -36,7 +36,7 @@ public class LevelController : MonoBehaviour
     /// <summary>
     /// The times (in seconds) since stsarting the level at which the game increases in difficulty
     /// </summary>
-    private readonly int[] _timeMilestones = { 1, 4, 7, 10, 15, 20, 25, 30, 35, 45};
+    private readonly int[] _timeMilestones = { 1, 4, 7, 10, 15, 20, 25, 30, 40};
 
     /// <summary>
     /// The current difficulty level, which is incremented when a new time milestone is reached
@@ -250,12 +250,13 @@ public class LevelController : MonoBehaviour
 
         float animationSpeed = ((fallSpeed / 120f) + (.1f * _currentDifficulty));
 
+        // set target traits
         target.GetComponent<Rigidbody2D>().velocity = new Vector2 (0, -fallSpeed * Random.Range(0.7f, 1.3f));
         target.GetComponent<Animator>().speed = animationSpeed * Random.Range(0.7f, 1.3f);
         target.transform.localScale = Vector3.one * size * Random.Range(0.7f, 1.3f);
         _targetSpawnTimeInterval = spawnInterval;
 
-        
+        // randomize starting direction
         if (Random.Range(0,2) == 1)
         {
             target.GetComponent<Animator>().SetTrigger("Go Left");
