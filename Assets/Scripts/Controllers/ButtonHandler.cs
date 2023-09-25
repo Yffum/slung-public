@@ -9,6 +9,11 @@ public class ButtonHandler : MonoBehaviour
         GameController.Gui.CloseGameOverMenu();
 
         GameController.Sound.PlayBlipSound();
+
+        if (GameController.UserData.PlayCount > 6)
+        {
+            StartCoroutine(GameController.RequestReview());
+        }
     }
 
     public void PressMute()

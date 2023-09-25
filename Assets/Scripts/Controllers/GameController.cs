@@ -1,3 +1,4 @@
+using Google.Play.Review;
 using System.Collections;
 using System.Collections.Generic;
 //using System.Runtime.CompilerServices;
@@ -17,6 +18,12 @@ public class GameController : MonoBehaviour
 
     /*Serialize*/ public LevelController Level;
 
+
+    // Google Play in-app reviews
+    private static ReviewManager _reviewManager;
+    private static PlayReviewInfo _playReviewInfo;
+
+
     public static void SaveUserData()
     {
         ES3.Save("UserData", UserData);
@@ -34,6 +41,41 @@ public class GameController : MonoBehaviour
         }
     }    
 
+    /// <summary>
+    /// Prepare Google Play for an in-app review request
+    /// </summary>
+    public static IEnumerator PrepareReviewRequest()
+    {
+        // From: https://developer.android.com/guide/playcore/in-app-review/unity
+        var requestFlowOperation = _reviewManager.RequestReviewFlow();
+        yield return requestFlowOperation;
+        if (requestFlowOperation.Error != ReviewErrorCode.NoError)
+        {
+            Debug.LogWarning("Error preparing in-app review request");
+            yield break;
+        }
+        _playReviewInfo = requestFlowOperation.GetResult();
+    }
+
+    /// <summary>
+    /// Initiate Google Play's in-app review request
+    /// </summary>
+    public static IEnumerator RequestReview()
+    {
+        // From: https://developer.android.com/guide/playcore/in-app-review/unity
+        var launchFlowOperation = _reviewManager.LaunchReviewFlow(_playReviewInfo);
+        yield return launchFlowOperation;
+        _playReviewInfo = null; // Reset the object
+        if (launchFlowOperation.Error != ReviewErrorCode.NoError)
+        {
+            Debug.LogWarning("Error launching in-app review");
+            yield break;
+        }
+        // The flow has finished. The API does not indicate whether the user
+        // reviewed or not, or even whether the review dialog was shown. Thus, no
+        // matter the result, we continue our app flow. 
+    }
+
     private void Awake()
     {
         // make GameController singleton
@@ -49,6 +91,8 @@ public class GameController : MonoBehaviour
         // DontDestroyOnLoad(gameObject);
 
         InitializeMembers();
+
+        InitializeGooglePlayReviews();
 
         LoadUserData();
 
@@ -72,5 +116,10 @@ public class GameController : MonoBehaviour
         Sound = GetComponent<SoundController>().Init();
         Spawn = GetComponent<SpawnController>().Init();
         Gui = GetComponent<GuiController>().Init();
+    }
+
+    private void InitializeGooglePlayReviews()
+    {
+        _reviewManager = new ReviewManager();
     }
 }

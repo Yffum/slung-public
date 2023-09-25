@@ -1,8 +1,8 @@
-using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// Spawns level objects. Disables self on CleanUpLevel() to stop spawning.
@@ -36,13 +36,20 @@ public class LevelController : MonoBehaviour
     /// <summary>
     /// The times (in seconds) since stsarting the level at which the game increases in difficulty
     /// </summary>
-    private readonly int[] _timeMilestones = { 1, 4, 7, 10, 15, 20, 25, 30, 40};
+    private readonly int[] _timeMilestones = { 1, 4, 7, 10, 25};
+
+    private readonly int _maxDifficulty = 10;
 
     /// <summary>
-    /// The current difficulty level, which is incremented when a new time milestone is reached
+    /// The current difficulty tier, which is incremented when a new time milestone is reached, and added to the current difficulty
     /// </summary>
     /// </summary>
-    private int _currentDifficulty = 0;
+    private int _currentDifficultyTier = 0;
+
+    /// <summary>
+    /// The current difficulty, which is used to determine the traits of a spawned target
+    /// </summary>
+    private float _currentDifficulty = 0;
 
     /// <summary>
     /// The amount of time (in seconds) since the last target was spawned
@@ -91,6 +98,8 @@ public class LevelController : MonoBehaviour
     {
         IsRunning = true;
 
+        _currentDifficulty = 0;
+
         GameController.Sound.PlayStartLevelSound();
 
         GameController.Gui.CloseStartMenu();
@@ -108,6 +117,9 @@ public class LevelController : MonoBehaviour
     /// </summary>
     public void EndLevel()
     {
+        // prepare google play in-app review request
+        StartCoroutine(GameController.PrepareReviewRequest());
+
         IsRunning = false;
 
         GameController.Sound.PlayEndLevelSound();
@@ -158,7 +170,7 @@ public class LevelController : MonoBehaviour
 
         // reset level timer
         _levelTimer = 0f;
-        _currentDifficulty = 0;
+        _currentDifficultyTier = 0;
 
         ResetPlayerScore();
     }
@@ -184,16 +196,19 @@ public class LevelController : MonoBehaviour
 
     private void UpdateDifficulty()
     {
-        if (_currentDifficulty < _timeMilestones.Length)
+        if (_currentDifficultyTier < _timeMilestones.Length)
         {
-            if (_levelTimer > _timeMilestones[_currentDifficulty])
+            if (_levelTimer > _timeMilestones[_currentDifficultyTier])
             {
-                _currentDifficulty++;
+                _currentDifficultyTier++;
 
-                Debug.Log("Difficulty = " + _currentDifficulty + "\n" +
-                    "Last time milestone = " + _levelTimer + " seconds");
+                
+                //Debug.Log("Difficulty = " + _currentDifficultyTier + "\n" +
+                //    "Last time milestone = " + _levelTimer + " seconds");
             }
         }
+
+
 
     }
 
@@ -243,17 +258,37 @@ public class LevelController : MonoBehaviour
 
     private void AdjustTargetBasedOnTimePassed(Target target)
     {
-        // calculate target traits based on _currentDifficulty
-        float fallSpeed = 54f + (_currentDifficulty * 2.7f);
-        float size = 2f - (_currentDifficulty * 0.09f);
-        float spawnInterval = 3f - (_currentDifficulty * 0.24f); //* Mathf.Pow(0.85f, _currentDifficulty);
+        if (_currentDifficulty != _maxDifficulty)
+        {
+            float baseDifficulty = 1;
+
+            float temporalDifficulty = (int)_levelTimer / 20f; // cast to int to reduce significant figures and optimize calculation
+
+            _currentDifficulty = baseDifficulty + _currentDifficultyTier + temporalDifficulty;
+
+            if (_currentDifficulty > _maxDifficulty)
+            {
+                _currentDifficulty = _maxDifficulty;
+            }
+        }
+
+        //test
+        //_currentDifficulty = _maxDifficulty;
+
+
+        Debug.Log("difficulty = " + _currentDifficulty);
+
+        // calculate target traits based on difficulty
+        float fallSpeed = 60f + (_currentDifficulty * 2.7f);
+        float size = 2f - (_currentDifficulty * 0.05f);
+        float spawnInterval = 3f - (_currentDifficulty * 0.24f); //* Mathf.Pow(0.85f, _currentDifficultyTier);
 
         float animationSpeed = ((fallSpeed / 120f) + (.1f * _currentDifficulty));
 
         // set target traits
-        target.GetComponent<Rigidbody2D>().velocity = new Vector2 (0, -fallSpeed * Random.Range(0.7f, 1.3f));
-        target.GetComponent<Animator>().speed = animationSpeed * Random.Range(0.7f, 1.3f);
-        target.transform.localScale = Vector3.one * size * Random.Range(0.7f, 1.3f);
+        target.GetComponent<Rigidbody2D>().velocity = new Vector2 (0, -fallSpeed * Random.Range(0.5f, 1.5f));
+        target.GetComponent<Animator>().speed = animationSpeed * Random.Range(0.5f, 1.5f);
+        target.transform.localScale = Vector3.one * size * Random.Range(0.5f, 1.5f);
         _targetSpawnTimeInterval = spawnInterval;
 
         // randomize starting direction
