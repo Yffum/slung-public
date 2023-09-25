@@ -9,13 +9,18 @@ public class ButtonHandler : MonoBehaviour
         GameController.Gui.CloseGameOverMenu();
 
         GameController.Sound.PlayBlipSound();
+
+        if (GameController.UserData.PlayCount > 6)
+        {
+            UnityEngine.iOS.Device.RequestStoreReview();
+        }
     }
 
     public void PressMute()
     {
         GameController.Sound.MuteAll();
-    }   
-    
+    }
+
     public void PressUnmute()
     {
         GameController.Sound.UnmuteAll();

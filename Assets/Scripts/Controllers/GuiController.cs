@@ -91,7 +91,6 @@ public class GuiController : MonoBehaviour
         _startLowerMenu.GetComponent<Animator>().SetTrigger("Disable");
     }
 
-    //Task: Add check for new highscore==========///////////////////////////////////////
     /// <summary>
     /// Activate game over menu fade in animation and update final score text
     /// </summary>
@@ -108,8 +107,6 @@ public class GuiController : MonoBehaviour
             GameController.UserData.HighScore = score;
             _playerHighScoreText.text = score.ToString();
 
-            GameController.SaveUserData();
-
             // activate crown image to notify player
             _highScoreNotification.SetActive(true);
             _finalScoreSubtitleText.SetActive(false);
@@ -121,6 +118,9 @@ public class GuiController : MonoBehaviour
             _finalScoreSubtitleText.SetActive(true);
         }
 
+        GameController.UserData.PlayCount++;
+
+        GameController.SaveUserData();
 
         // open menu
         _gameOverMenu.SetActive(true);
