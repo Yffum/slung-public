@@ -27,6 +27,12 @@ public class ScreenController : MonoBehaviour
     [SerializeField] private Transform _spawnPoint;
 
     /// <summary>
+    /// The spawn point is positioned this distance above the top of the screen
+    /// </summary>
+    /// <remarks> This must be manually increased if the maximum fall speed or scale of the targets is increased. Consider automating.</remarks>
+    private readonly int spawnPointDisplacement = 25;
+
+    /// <summary>
     /// The parent of menus which align with the top of the screen
     /// </summary>
     [SerializeField] private Transform _upperMenus;
@@ -49,9 +55,11 @@ public class ScreenController : MonoBehaviour
         //QualitySettings.vSyncCount = 1;
         //Application.targetFrameRate = (int)Screen.currentResolution.refreshRateRatio.value;
 
-        // Task: try getting screen refresh rate and rounding to nearest multiple of 10
+        // Testing: try getting screen refresh rate and rounding to nearest multiple of 10
 
-        Application.targetFrameRate = 60;
+        float rawRefreshRate = (float)Screen.currentResolution.refreshRateRatio.value;
+        int roundedRefreshRate = 10 * Mathf.RoundToInt(rawRefreshRate / 10f); //rounded to nearest multiple of 10
+        Application.targetFrameRate = roundedRefreshRate; //60;
 
         return this;
     }
@@ -113,11 +121,11 @@ public class ScreenController : MonoBehaviour
         // get global position
         Vector2 spawnPosition = GetGlobalPosition(screenPosition);
 
-        // add buffer so target can't be seen
-        Vector2 buffer = new Vector2(0, 20f);
+        // displace spawn point so target can't be seen suddenly appearing
+        Vector2 displacementVector = new Vector2(0, spawnPointDisplacement);
 
         // reposition
-        _spawnPoint.position = spawnPosition + buffer;
+        _spawnPoint.position = spawnPosition + displacementVector;
     } 
     
     /// <summary>

@@ -291,6 +291,9 @@ public class LevelController : MonoBehaviour
         target.transform.localScale = Vector3.one * size * Random.Range(0.5f, 1.5f);
         _targetSpawnTimeInterval = spawnInterval;
 
+
+
+
         // randomize starting direction
         if (Random.Range(0,2) == 1)
         {
