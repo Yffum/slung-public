@@ -57,9 +57,13 @@ public class ScreenController : MonoBehaviour
 
         // Testing: try getting screen refresh rate and rounding to nearest multiple of 10
 
+        /*
         float rawRefreshRate = (float)Screen.currentResolution.refreshRateRatio.value;
         int roundedRefreshRate = 10 * Mathf.RoundToInt(rawRefreshRate / 10f); //rounded to nearest multiple of 10
         Application.targetFrameRate = roundedRefreshRate; //60;
+        */
+
+        Application.targetFrameRate = 999;
 
         return this;
     }
