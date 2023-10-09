@@ -27,6 +27,12 @@ public class SlingshotInputHandler : MonoBehaviour
     [SerializeField] private GameObject _pouch;
 
     /// <summary>
+    /// The maximum speed to which the pouch is set when snapping back. This must be limited to prevent slipping
+    /// past resting point, where the ball is detached
+    /// </summary>
+    private readonly int _maxPouchSpeed = 1100;
+
+    /// <summary>
     /// The collider positioned at _pouchRestingSpot, which detaches the ball when the pouch exits, and then disables self
     /// </summary>
     [SerializeField] private GameObject _proximityThreshold;
@@ -293,7 +299,16 @@ public class SlingshotInputHandler : MonoBehaviour
 
         // set pouch velocity
         _newPouchVelocity = new Vector3(launchVelocityX, launchVelocityY);
+
+        if (_newPouchVelocity.magnitude > _maxPouchSpeed)
+        {
+            float slowDownFactor = ((float)_maxPouchSpeed) / _newPouchVelocity.magnitude;
+
+            _newPouchVelocity *= slowDownFactor;
+        }
+
         _pouchVelocityUpdateQueued = true;
+
     }
 
     /// <summary>
