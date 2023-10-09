@@ -68,6 +68,11 @@ public class ScreenController : MonoBehaviour
         return this;
     }
 
+    public void Start()
+    {
+        Application.targetFrameRate = 999;
+    }
+
     /// <param name="screenPosition"> A position in screen space coordinates e.g. Touch.position </param>
     /// <returns> The corresponding global world position </returns>
     public static Vector3 GetGlobalPosition(Vector2 screenPosition)
