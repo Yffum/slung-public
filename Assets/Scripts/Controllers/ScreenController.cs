@@ -9,6 +9,11 @@ public class ScreenController : MonoBehaviour
     /// </summary>
     public const float OrthographicHalfWidth = 100f;
 
+    /// <summary>
+    /// True if the device the game is running on is a tablet
+    /// </summary>
+    public bool _isTablet = false;
+
     private float _originalOrthographicSize;
 
     /// <summary>
@@ -188,13 +193,21 @@ public class ScreenController : MonoBehaviour
     /// </summary>
     private void AdjustLogoForTablets()
     {
-        float displayRatio = Screen.height / Screen.width;
+        float displayRatio = (float)Screen.height / (float)Screen.width;
 
         float smallLogoScale = 0.7f;
         float verticalDisplacement = 30f;
-        
+
+        Debug.Log("Display Ratio:" + displayRatio);
+
         if (displayRatio < _maxTabletDisplayRatio)
         {
+            Debug.Log("is tablet");
+
+            _isTablet = true;
+
+            GameController.Game.Level.SlingshotInputHandler.GetComponent<SlingshotInputHandler>().SetTabletBallSpeed();
+
             _logoBlob.transform.localScale *= smallLogoScale;
             _logoBlob.transform.position += new Vector3(0, verticalDisplacement);
         }

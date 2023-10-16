@@ -1951,6 +1951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22d03d2f826472f4081ff2c3c2deae1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isTablet: 0
   _levelBounds: {fileID: 818894854}
   _spawnPoint: {fileID: 107052443}
   _upperMenus: {fileID: 2145583476}
@@ -6123,7 +6124,7 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.5803922, g: 0.27058825, b: 0.68235296, a: 1}
+  m_Color: {r: 1, g: 0.8, b: 0.7019608, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

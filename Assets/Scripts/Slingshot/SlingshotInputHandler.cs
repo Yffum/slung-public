@@ -51,6 +51,11 @@ public class SlingshotInputHandler : MonoBehaviour
     private Vector3 _newPlayerBallVelocity = Vector3.zero;
 
     /// <summary>
+    /// The factor which deteremines the speed at which balls launch 
+    /// </summary>
+    private float _ballSpeedFactor = 11f;
+
+    /// <summary>
     /// True if pouch is snapping back to resting position
     /// </summary>
     private bool _snappingBack = false;
@@ -64,6 +69,14 @@ public class SlingshotInputHandler : MonoBehaviour
     /// The position where the screen was last initially touched
     /// </summary>
     private Vector2 _initialTouchPosition = Vector2.zero;
+
+    /// <summary>
+    /// Diminish overall ball speed for tablet gameplay
+    /// </summary>
+    public void SetTabletBallSpeed()
+    {
+        _ballSpeedFactor = 8f;
+    }
 
     public void ResetState()
     {
@@ -286,7 +299,7 @@ public class SlingshotInputHandler : MonoBehaviour
         Vector3 pouchDisplacement = _pouchRestingSpot.position - _pouch.transform.position;
 
         // set ball speed based on displacement magnitude
-        float ballSpeedFactor = 11f;
+        float ballSpeedFactor = _ballSpeedFactor;
         float ballSpeed = pouchDisplacement.magnitude * ballSpeedFactor;
 
         // calculate velocity
@@ -295,7 +308,7 @@ public class SlingshotInputHandler : MonoBehaviour
         if (pouchDisplacement.x < 0)
         {
             launchVelocityX = 0 - launchVelocityX;
-        }    
+        } 
 
         // set pouch velocity
         _newPouchVelocity = new Vector3(launchVelocityX, launchVelocityY);
