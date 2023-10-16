@@ -42,6 +42,19 @@ public class ScreenController : MonoBehaviour
     /// </summary>
     [SerializeField] private Transform _centerMenus;
 
+    /// <summary>
+    /// If the height/width ratio of the display is less than this value, the device is
+    /// assumed to be a tablet.
+    /// </summary>
+    private readonly float _maxTabletDisplayRatio = 1.45f;
+
+    /// <summary>
+    /// The start screen logo containing the highscore graphic
+    /// </summary>
+    /// <remarks>
+    /// This is adjusted for tablets </remarks>
+    [SerializeField] private Transform _logoBlob;
+
     public ScreenController Init()
     {
         AdjustCameraToScreen();
@@ -51,6 +64,8 @@ public class ScreenController : MonoBehaviour
         SetSpawnPoint();
         SetUpperMenusPosition();
         SetCenterMenusPosition();
+
+        AdjustLogoForTablets();
 
         //QualitySettings.vSyncCount = 1;
         //Application.targetFrameRate = (int)Screen.currentResolution.refreshRateRatio.value;
@@ -166,5 +181,22 @@ public class ScreenController : MonoBehaviour
 
         //reposition
         _centerMenus.position = globalPosition;
+    }
+
+    /// <summary>
+    /// Decrease the size of the logo if the display ratio is small enough to indicate a tablet is being used
+    /// </summary>
+    private void AdjustLogoForTablets()
+    {
+        float displayRatio = Screen.height / Screen.width;
+
+        float smallLogoScale = 0.7f;
+        float verticalDisplacement = 30f;
+        
+        if (displayRatio < _maxTabletDisplayRatio)
+        {
+            _logoBlob.transform.localScale *= smallLogoScale;
+            _logoBlob.transform.position += new Vector3(0, verticalDisplacement);
+        }
     }
 }
