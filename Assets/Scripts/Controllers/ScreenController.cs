@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ScreenController : MonoBehaviour
 {
@@ -8,6 +9,11 @@ public class ScreenController : MonoBehaviour
     /// Half the width of the game world.
     /// </summary>
     public const float OrthographicHalfWidth = 100f;
+
+    /// <summary>
+    /// A vector with half the global width and half the global height
+    /// </summary>
+    public static readonly Vector2 OrthographicHalfBox = new Vector2(100, 150);
 
     /// <summary>
     /// True if the device the game is running on is a tablet
@@ -20,6 +26,14 @@ public class ScreenController : MonoBehaviour
     /// The distance by which the camera is moved down to accomodate screen ratio
     /// </summary>
     private float _cameraDeltaYPosition = 0;
+
+    /// <summary>
+    /// The ratio of the distance between two transform positions to the distance between the two corresponding screen positions
+    /// </summary>
+    /// <remarks>
+    /// Should be read-only, but it's calculated in Init() to make sure Screen.width is correct
+    /// </remarks>
+    private static float _globalToScreenPositionRatio = 1;
 
     /// <summary>
     /// The trigger which disables level objects that leave its bounds
@@ -62,6 +76,8 @@ public class ScreenController : MonoBehaviour
 
     public ScreenController Init()
     {
+        _globalToScreenPositionRatio = OrthographicHalfWidth * 2 / Screen.width;
+
         AdjustCameraToScreen();
 
         FitLevelBoundsToScreen();
@@ -97,20 +113,28 @@ public class ScreenController : MonoBehaviour
     /// <returns> The corresponding global world position </returns>
     public static Vector3 GetGlobalPosition(Vector2 screenPosition)
     {
-        // multiply this by Touch.position to get the global position of the touch
-        float globalToScreenPositionRatio = OrthographicHalfWidth * 2 / Screen.width; // Optimize: calculate this at initialization
+        // change to global space
+        Vector2 position = _globalToScreenPositionRatio * screenPosition;
 
-        // calculate position from ratio
-        float xPosition = screenPosition.x * globalToScreenPositionRatio;
-        float yPosition = screenPosition.y * globalToScreenPositionRatio;
+        // reposition origin to (camera?) center
+        position -= OrthographicHalfBox;
 
-        // reposition origin to "center"
-        xPosition -= OrthographicHalfWidth;
-        const float _orthographicHalfHeight = 150f; // this is not the actual center
-        yPosition -= _orthographicHalfHeight;
-
-        return new Vector3(xPosition, yPosition);
+        return position;
     }
+
+    /// <param name="globalPosition"> A global position e.g. a transform position </param>
+    /// <returns> The screen position corresponding to globalPosition </returns>
+     public static Vector2 GetScreenPosition(Vector3 globalPosition)
+    {
+        // reposition origin in global space
+        Vector2 position = (Vector2)globalPosition + OrthographicHalfBox;
+
+        // change to screen space
+        position /= _globalToScreenPositionRatio;
+
+        return position;
+    }
+
 
     /// <summary>
     /// Resize the camera window according to screen ratio, and align to bottom

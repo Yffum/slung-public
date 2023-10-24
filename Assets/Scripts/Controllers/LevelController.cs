@@ -102,6 +102,8 @@ public class LevelController : MonoBehaviour
 
         GameController.Sound.PlayStartLevelSound();
 
+        SlingshotInputHandler.GetComponent<SlingshotInputHandler>().SetTouchInputBounds();
+
         GameController.Gui.CloseStartMenu();
         GameController.Gui.EnableLevelHUD();
 
@@ -120,6 +122,8 @@ public class LevelController : MonoBehaviour
         IsRunning = false;
 
         GameController.Sound.PlayEndLevelSound();
+
+        SlingshotInputHandler.GetComponent<SlingshotInputHandler>().SetTouchInputBounds();
 
         // freeze level
         Time.timeScale = 0f;

@@ -332,7 +332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3655373c8b57f67408b4411dd17c9528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _touchUpperBound: {fileID: 1034497823}
+  _touchUpperBoundInLevel: {fileID: 1034497823}
   _pouchUpperBound: {fileID: 1682624281}
   _pouchLowerBound: {fileID: 1726556287}
   _pouchRestingSpot: {fileID: 1590854264}

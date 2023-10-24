@@ -62,6 +62,8 @@ public class GameController : MonoBehaviour
         GameController.Sound.PlayEndLevelSound();
 
         GameController.Gui.ActivatePostSplashCurtain();
+
+        Level.SlingshotInputHandler.GetComponent<SlingshotInputHandler>().SetTouchInputBounds();
     }
 
     private void InitializeMembers()

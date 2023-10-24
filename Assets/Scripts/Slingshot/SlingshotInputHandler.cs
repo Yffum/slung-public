@@ -9,8 +9,13 @@ using static UnityEngine.GraphicsBuffer;
 /// </summary>
 public class SlingshotInputHandler : MonoBehaviour
 {
-    /// <summary> The upper bound of the area in which touch input is received </summary>
-    [SerializeField] private Transform _touchUpperBound;
+    /// <summary> The upper bound of the area in which touch input is received when in level</summary>
+    [SerializeField] private Transform _touchUpperBoundInLevel;
+
+    /// <summary>
+    /// The upper bound of touch input
+    /// </summary>
+    private float _touchUpperBound;
 
     /// <summary> The upper bound of the pouch position </summary>
     [SerializeField] private Transform _pouchUpperBound;
@@ -70,6 +75,21 @@ public class SlingshotInputHandler : MonoBehaviour
     /// </summary>
     private Vector2 _initialTouchPosition = Vector2.zero;
 
+    /// <summary>
+    /// If Level.IsRunning, touch input upper bound is set higher, otherwise it's set below the logo
+    /// </summary>
+    public void SetTouchInputBounds()
+    {
+        if (GameController.Game.Level.IsRunning)
+        {
+            _touchUpperBound = ScreenController.GetScreenPosition(_touchUpperBoundInLevel.position).y;
+        }
+        else
+        {
+            _touchUpperBound = ScreenController.GetScreenPosition(_pouchUpperBound.position).y;
+        }
+    }
+    
     /// <summary>
     /// Diminish overall ball speed for tablet gameplay
     /// </summary>
@@ -198,40 +218,37 @@ public class SlingshotInputHandler : MonoBehaviour
         {
             // get touch world position
             Touch touch = Input.GetTouch(0);
-            Vector3 touchPosition = ScreenController.GetGlobalPosition(touch.position);
 
             // get pouch displacement from resting position
             Vector3 pouchDisplacement = _pouchRestingSpot.position - _pouch.transform.position;
 
-            // limit touch upper bounds before level starts to prevent starting when tapping logo
-            float touchUpperBound;
-            if (GameController.Game.Level.IsRunning)
-            {
-                touchUpperBound = _touchUpperBound.position.y;
-            }
-            else
-            {
-                touchUpperBound = _pouchUpperBound.position.y;
-            }
+            bool touchIsInBounds = touch.position.y < _touchUpperBound;
 
             // prevent taps
+            /*
             if ( touch.phase == TouchPhase.Began )
             {
                 _initialTouchPosition = touch.position;
             }
+            */
+
+            // if touch is stationary
+            if (touch.phase == TouchPhase.Stationary && touchIsInBounds)
+            {
+                // do nothing
+            }
 
             // if touch is within bounds
-            else if ((touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
-                && touchPosition.y < touchUpperBound)
+            else if (touch.phase == TouchPhase.Moved && touchIsInBounds)
             {
                 // move pouch with user touch position
-                MovePouchToPosition(touchPosition);
+                MovePouchToPosition(ScreenController.GetGlobalPosition(touch.position));
             }
 
             // if touch ends and pouch is not in proximity of the resting spot
             else if (touch.phase == TouchPhase.Ended
                 && pouchDisplacement.magnitude > pouchProximityThreshold
-                && _initialTouchPosition != touch.position)
+                /*&& _initialTouchPosition != touch.position // redundant?*/)
             {
                 SnapBack();
             }
