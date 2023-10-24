@@ -42,6 +42,11 @@ public class SlingshotInputHandler : MonoBehaviour
     /// </summary>
     [SerializeField] private GameObject _proximityThreshold;
 
+    /// <summary>
+    /// The initial global scale of the player ball
+    /// </summary>
+    private readonly Vector3 _playerBallMinScale = new Vector3(3, 3, 1);
+
     //-------for adjusting RigidBody2D velocity
     private bool _pouchVelocityUpdateQueued = false;
     private Vector3 _newPouchVelocity = Vector3.zero;
@@ -64,16 +69,6 @@ public class SlingshotInputHandler : MonoBehaviour
     /// True if pouch is snapping back to resting position
     /// </summary>
     private bool _snappingBack = false;
-
-    /// <summary>
-    /// True if pouch is snapping back and is in proximity of rest position (i.e. almost finished _snappingBack)
-    /// </summary>
-    private bool _finishingSnapBack = false;
-
-    /// <summary>
-    /// The position where the screen was last initially touched
-    /// </summary>
-    private Vector2 _initialTouchPosition = Vector2.zero;
 
     /// <summary>
     /// If Level.IsRunning, touch input upper bound is set higher, otherwise it's set below the logo
@@ -101,7 +96,6 @@ public class SlingshotInputHandler : MonoBehaviour
     public void ResetState()
     {
         _snappingBack = false;
-        _finishingSnapBack = false;
 
         _pouch.transform.position = _pouchRestingSpot.position;
         
@@ -127,8 +121,7 @@ public class SlingshotInputHandler : MonoBehaviour
             _playerBall = ballSpawner.SpawnAt(_pouch.transform.position);
 
             // set ball's initial scale (global!)
-            Vector3 playerBallMinScale = new Vector3(3, 3, 1);
-            _playerBall.transform.localScale = playerBallMinScale;
+            _playerBall.transform.localScale = _playerBallMinScale;
 
             // attach ball to pouch and turn off ball physics
             _playerBall.transform.SetParent(_pouch.transform);
@@ -150,7 +143,6 @@ public class SlingshotInputHandler : MonoBehaviour
     public void DetachBall()
     {
         _snappingBack = false;
-        _finishingSnapBack = false;
 
         // if ball is attached, launch
         if (_playerBall != null)
@@ -224,14 +216,6 @@ public class SlingshotInputHandler : MonoBehaviour
 
             bool touchIsInBounds = touch.position.y < _touchUpperBound;
 
-            // prevent taps
-            /*
-            if ( touch.phase == TouchPhase.Began )
-            {
-                _initialTouchPosition = touch.position;
-            }
-            */
-
             // if touch is stationary
             if (touch.phase == TouchPhase.Stationary && touchIsInBounds)
             {
@@ -269,20 +253,18 @@ public class SlingshotInputHandler : MonoBehaviour
     /// </summary>
     private void MovePouchToPosition(Vector3 position)
     {
+        // limit vertical position to bounds
+        if (position.y > _pouchUpperBound.position.y)
+        {
+            position = new Vector3(position.x, _pouchUpperBound.position.y);
+        }
+        else if (position.y < _pouchLowerBound.position.y)
+        {
+            position = new Vector3(position.x, _pouchLowerBound.position.y);
+        }
+
         // move pouch to touch
         _pouch.transform.position = position;
-
-        // limit vertical position to bounds
-        if (_pouch.transform.position.y > _pouchUpperBound.position.y)
-        {
-            _pouch.transform.position = new Vector3(_pouch.transform.position.x, _pouchUpperBound.position.y);
-        }
-        else if (_pouch.transform.position.y < _pouchLowerBound.position.y)
-        {
-            _pouch.transform.position = new Vector3(_pouch.transform.position.x, _pouchLowerBound.position.y);
-        }
-
-        
     }
 
     private void MovePouchTowardsRestPosition()
@@ -340,7 +322,7 @@ public class SlingshotInputHandler : MonoBehaviour
 
         _pouchVelocityUpdateQueued = true;
 
-        Debug.Log(_newPouchVelocity.magnitude);
+        // Debug.Log(_newPouchVelocity.magnitude);
     }
 
     /// <summary>

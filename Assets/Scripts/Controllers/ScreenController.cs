@@ -152,11 +152,8 @@ public class ScreenController : MonoBehaviour
 
     private void FitLevelBoundsToScreen()
     {
-        // multiply this by Touch.position to get the global position of the touch
-        float globalToScreenPositionRatio = OrthographicHalfWidth * 2 / Screen.width; // Optimize: calculate this at initialization
-
         // set width to screen width and height to 1.5x screen height so balls can go above the screen without despawning
-        Vector2 boundsSize = globalToScreenPositionRatio * (new Vector2(Screen.width, 1.5f * Screen.height));
+        Vector2 boundsSize = _globalToScreenPositionRatio * new Vector2(Screen.width, 1.5f * Screen.height);
 
         _levelBounds.GetComponent<BoxCollider2D>().size = boundsSize;
 
@@ -222,11 +219,11 @@ public class ScreenController : MonoBehaviour
         float smallLogoScale = 0.7f;
         float verticalDisplacement = 30f;
 
-        Debug.Log("Display Ratio:" + displayRatio);
+        // Debug.Log("Display Ratio:" + displayRatio);
 
         if (displayRatio < _maxTabletDisplayRatio)
         {
-            Debug.Log("is tablet");
+            // Debug.Log("is tablet");
 
             _isTablet = true;
 

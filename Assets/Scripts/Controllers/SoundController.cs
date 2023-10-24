@@ -65,6 +65,9 @@ public class SoundController : MonoBehaviour
         _quietSpeaker.PlayOneShot(_startLevelSound);
     }
 
+    /// <remarks>
+    /// This sound is also used when the game opens
+    /// </remarks>
     public void PlayEndLevelSound()
     {
         _quietSpeaker.PlayOneShot(_endLevelSound);
@@ -94,7 +97,7 @@ public class SoundController : MonoBehaviour
         // no negative notes
         if (noteIndex < 0)
         {
-            Debug.LogWarning("Arpeggio cannot play negative noteIndex");
+            // Debug.LogWarning("Arpeggio cannot play negative noteIndex");
         }
 
         // cap at arpeggio length
@@ -113,33 +116,4 @@ public class SoundController : MonoBehaviour
     {
         _speaker.PlayOneShot(_arpeggioOne.GetChild(1).GetComponent<AudioSource>().clip);
     }
-
-
-    /*
-    /// <summary>
-    /// Plays a note at the given index in _arpeggioOne, or the highest index if a higher one is given
-    /// </summary>
-    public void PlayArpeggioOne(int noteIndex)
-    {
-        // no negative notes
-        if (noteIndex < 0)
-        {
-            Debug.LogWarning("Arpeggio cannot play negative noteIndex");
-        }
-
-        // cap at arpeggio length
-        else if (noteIndex >= _arpeggioOne.Length)
-        {
-            noteIndex = _arpeggioOne.Length - 1;
-        }
-
-        // play sound
-        _speaker.PlayOneShot(_arpeggioOne[noteIndex]);
-    }
-
-    private void InitializeArpeggios()
-    {
-        _arpeggioOne = new AudioClip[] { _synthC3, _synthF3, _synthC4 };
-    }
-    */
 }

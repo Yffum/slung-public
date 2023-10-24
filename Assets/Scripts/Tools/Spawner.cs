@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Optimize: Maybe you can still use Spawners while their gameObject is inactive
-
 public class Spawner : MonoBehaviour
 {
     private Stack<GameObject> inactiveObjects;

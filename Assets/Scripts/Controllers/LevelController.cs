@@ -259,12 +259,15 @@ public class LevelController : MonoBehaviour
 
     private void AdjustTargetBasedOnTimePassed(Target target)
     {
+        // set current difficutly based on time passed.
         if (_currentDifficulty != _maxDifficulty)
         {
             float baseDifficulty = 1;
 
-            float temporalDifficulty = (int)_levelTimer / 20f; // cast to int to reduce significant figures and optimize calculation
+            float temporalDifficulty = (int)_levelTimer / 20f;
 
+            // note: current difficulty tier changes with time as well, but not gradually
+            //       the way temporal difficulty does
             _currentDifficulty = baseDifficulty + _currentDifficultyTier + temporalDifficulty;
 
             if (_currentDifficulty > _maxDifficulty)
@@ -273,11 +276,9 @@ public class LevelController : MonoBehaviour
             }
         }
 
-        //test
-        //_currentDifficulty = _maxDifficulty;
-
-
-        Debug.Log("difficulty = " + _currentDifficulty);
+        // test
+        // _currentDifficulty = _maxDifficulty;
+        // Debug.Log("difficulty = " + _currentDifficulty);
 
         // calculate target traits based on difficulty
         float fallSpeed = 60f + (_currentDifficulty * 2.7f);
