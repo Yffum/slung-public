@@ -88,7 +88,7 @@ public class ScreenController : MonoBehaviour
 
         AdjustLogoForTablets();
 
-        //QualitySettings.vSyncCount = 1;
+        QualitySettings.vSyncCount = 0;
         //Application.targetFrameRate = (int)Screen.currentResolution.refreshRateRatio.value;
 
         // Testing: try getting screen refresh rate and rounding to nearest multiple of 10
@@ -99,7 +99,7 @@ public class ScreenController : MonoBehaviour
         Application.targetFrameRate = roundedRefreshRate; //60;
         */
 
-        Application.targetFrameRate = 999;
+        Application.targetFrameRate = Mathf.RoundToInt((float)Screen.currentResolution.refreshRateRatio.value);
 
         return this;
     }
