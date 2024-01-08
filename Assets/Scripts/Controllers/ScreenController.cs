@@ -9,6 +9,11 @@ public class ScreenController : MonoBehaviour
     /// </summary>
     public const float OrthographicHalfWidth = 100f;
 
+    /// <summary>
+    /// True if the device the game is running on is a tablet
+    /// </summary>
+    public bool _isTablet = false;
+
     private float _originalOrthographicSize;
 
     /// <summary>
@@ -42,6 +47,19 @@ public class ScreenController : MonoBehaviour
     /// </summary>
     [SerializeField] private Transform _centerMenus;
 
+    /// <summary>
+    /// If the height/width ratio of the display is less than this value, the device is
+    /// assumed to be a tablet.
+    /// </summary>
+    private readonly float _maxTabletDisplayRatio = 1.45f;
+
+    /// <summary>
+    /// The start screen logo containing the highscore graphic
+    /// </summary>
+    /// <remarks>
+    /// This is adjusted for tablets </remarks>
+    [SerializeField] private Transform _logoBlob;
+
     public ScreenController Init()
     {
         AdjustCameraToScreen();
@@ -51,6 +69,8 @@ public class ScreenController : MonoBehaviour
         SetSpawnPoint();
         SetUpperMenusPosition();
         SetCenterMenusPosition();
+
+        AdjustLogoForTablets();
 
         //QualitySettings.vSyncCount = 1;
         //Application.targetFrameRate = (int)Screen.currentResolution.refreshRateRatio.value;
@@ -108,7 +128,7 @@ public class ScreenController : MonoBehaviour
         _levelBounds.GetComponent<BoxCollider2D>().size = boundsSize;
 
         _levelBounds.transform.position += new Vector3(0, _cameraDeltaYPosition, 0);
-    }    
+    }
 
     /// <summary>
     /// Set the spawn point for targets using Screen.safeArea.width and Screen.safeArea.height
@@ -126,8 +146,8 @@ public class ScreenController : MonoBehaviour
 
         // reposition
         _spawnPoint.position = spawnPosition + displacementVector;
-    } 
-    
+    }
+
     /// <summary>
     /// Set the _upperMenus parent game object position to the top middle of the screen
     /// using Screen.safeArea.width and Screen.safeArea.height
@@ -157,5 +177,26 @@ public class ScreenController : MonoBehaviour
 
         //reposition
         _centerMenus.position = globalPosition;
-    }    
+    }
+
+    /// <summary>
+    /// Decrease the size of the logo if the display ratio is small enough to indicate a tablet is being used
+    /// </summary>
+    private void AdjustLogoForTablets()
+    {
+        float displayRatio = (float)Screen.height / (float)Screen.width;
+
+        float smallLogoScale = 0.7f;
+        float verticalDisplacement = 30f;
+
+        if (displayRatio < _maxTabletDisplayRatio)
+        {
+            _isTablet = true;
+
+            GameController.Game.Level.SlingshotInputHandler.GetComponent<SlingshotInputHandler>().SetTabletBallSpeed();
+
+            _logoBlob.transform.localScale *= smallLogoScale;
+            _logoBlob.transform.position += new Vector3(0, verticalDisplacement);
+        }
+    }
 }

@@ -1951,10 +1951,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22d03d2f826472f4081ff2c3c2deae1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isTablet: 0
   _levelBounds: {fileID: 818894854}
   _spawnPoint: {fileID: 107052443}
   _upperMenus: {fileID: 2145583476}
   _centerMenus: {fileID: 1111595079}
+  _logoBlob: {fileID: 1915350713}
 --- !u!114 &251863569
 MonoBehaviour:
   m_ObjectHideFlags: 0
