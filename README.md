@@ -1,4 +1,17 @@
-Description:
+## Introduction
+Slung is a very simple open source arcade game that works on virtually all phones and tablets. I developed and published Slung under the developer name Arsom Games to learn about the experience of publishing a game on multiple mobile platforms. 
+
+## Dependencies
+This project requires Unity 2022.3.7f1, and might not work with later versions.
+
+This repo relies on Git LFS (which is installed automatically with GitHub Desktop).
+
+## Usage
+The Unity project is named "Circle Saver". This was a placeholder name.
+
+After cloning the repo, simply open "Circle Saver.sln", or add it to Unity Hub.
+
+## Game Description
 Slung is a fast-paced casual slingshot game! Pop the bubbles before they touch the ground!
 
 Features:
@@ -7,8 +20,7 @@ Features:
 - Satisfying synth sound effects
 - Pastel rainbows
 
------------------------
-Store Links:
+## Store Links
 
 iOS App Store:
 https://apps.apple.com/us/app/slung/id6465792615
@@ -16,4 +28,6 @@ https://apps.apple.com/us/app/slung/id6465792615
 Google Play Store:
 https://play.google.com/store/apps/details?id=com.Arsom.Slung
 
+## Support
+https://sites.google.com/view/arsom/slung-support
 
