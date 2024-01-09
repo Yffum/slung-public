@@ -7,9 +7,7 @@ This project requires Unity 2022.3.7f1, and might not work with later versions.
 This repo relies on Git LFS (which is installed automatically with GitHub Desktop).
 
 ## Usage
-The Unity project is named "Circle Saver". This was a placeholder name.
-
-After cloning the repo, simply open "Circle Saver.sln", or add it to Unity Hub.
+After cloning the repo, simply open "Slung.sln", or add it to Unity Hub.
 
 ## Game Description
 Slung is a fast-paced casual slingshot game! Pop the bubbles before they touch the ground!
