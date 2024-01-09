@@ -4,6 +4,8 @@ Slung is a very simple open source arcade game that works on virtually all phone
 ## Dependencies
 This project requires Unity 2022.3.7f1, and might not work with later versions.
 
+This project uses the [Easy Save Unity package by Moodkie](https://assetstore.unity.com/packages/tools/utilities/easy-save-the-complete-save-data-serializer-system-768) for serializing save data.
+
 This repo relies on Git LFS (which is installed automatically with GitHub Desktop).
 
 ## Usage
@@ -27,5 +29,5 @@ Google Play Store:
 https://play.google.com/store/apps/details?id=com.Arsom.Slung
 
 ## Support
-https://sites.google.com/view/arsom/slung-support
+For questions, contact me at arsomgames@gmail.com, or visit my [support page](https://sites.google.com/view/arsom/slung-support)
 
