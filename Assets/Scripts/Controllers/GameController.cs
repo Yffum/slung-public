@@ -18,11 +18,14 @@ public class GameController : MonoBehaviour
 
     public static void SaveUserData()
     {
-        ES3.Save("UserData", UserData);
+        Debug.LogWarning("Saving is not implemented. Data not saved.");
+        //ES3.Save("UserData", UserData);
     }   
     
     public static void LoadUserData()
     {
+        Debug.LogWarning("Saving is not implemented. No data loaded.");
+        /*
         if (ES3.KeyExists("UserData"))
         {
             ES3.LoadInto("UserData", UserData);
@@ -31,6 +34,7 @@ public class GameController : MonoBehaviour
         {
             SaveUserData();
         }
+        */
     }    
 
     private void Awake()
