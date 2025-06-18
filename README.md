@@ -2,8 +2,10 @@
 Slung is an open source casual arcade game for phones and tablets. It is also my first published game! I developed Slung to learn about the experience of developing a game simultaneously on iOS and Android.
 
 # Download Links
-iOS App Store:
-https://apps.apple.com/us/app/slung/id6465792615
+Update (2025-06-18): Slung is not currently available on the iOS App Store, because I'm not working on mobile development right now and my Apple dev account has lapsed.
+
+~iOS App Store:
+https://apps.apple.com/us/app/slung/id6465792615~
 
 Google Play Store:
 https://play.google.com/store/apps/details?id=com.Arsom.Slung
